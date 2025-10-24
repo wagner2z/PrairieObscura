@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Vision : MonoBehaviour
 {
+    GameObject player;
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -20,5 +21,7 @@ public class Vision : MonoBehaviour
         // Adjust for sprite's initial orientation if necessary
         angle -= 90; // Example adjustment
         transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        transform.position = player.transform.position;
     }
 }
