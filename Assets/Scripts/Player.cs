@@ -5,8 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     ControlAssignment control = new ControlAssignment();
-    const float moveSpeed = 5f;
-    float tempSpeed;
+    const float maxMoveSpeed = 5f;
+    float moveSpeed;
     public Rigidbody2D rigidBody;
     //float xVel;
     //float yVel;
@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     const float beenHitTime = 0.5f;
     Vector3 faceDirection;
     Vector3 moveDirection;
+    public Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,14 +25,14 @@ public class Player : MonoBehaviour
         isHitTime = 0f;
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(0, 0, 0);
-        tempSpeed = moveSpeed;
+        moveSpeed = 0;
+        anim.SetBool("Walking", false);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //tempSpeed = 0;
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
         faceDirection = mouseWorldPos - new Vector3(rigidBody.position.x, rigidBody.position.y, 0);
@@ -38,12 +40,16 @@ public class Player : MonoBehaviour
         angle -= 90; // Example adjustment
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        anim.SetBool("Walking", false);
+        moveSpeed = 0;
+
         if (Input.GetKey(control.characterMoveBack()))
         {
             // Calculate the backward direction based on the character's current forward vector
             // Multiplying by -1 reverses the direction
-            tempSpeed = moveSpeed;
-            Vector3 moveDirection = -transform.up;
+            moveSpeed = maxMoveSpeed;
+            moveDirection = -transform.up;
+            anim.SetBool("Walking", true);
 
             // Move the character in the backward direction
             // Time.deltaTime ensures frame-rate independent movement
@@ -53,8 +59,9 @@ public class Player : MonoBehaviour
         {
             // Calculate the backward direction based on the character's current forward vector
             // Multiplying by -1 reverses the direction
-            tempSpeed = moveSpeed;
-            Vector3 moveDirection = transform.up;
+            moveSpeed = maxMoveSpeed;
+            moveDirection = transform.up;
+            anim.SetBool("Walking", true);
 
             // Move the character in the backward direction
             // Time.deltaTime ensures frame-rate independent movement
@@ -64,8 +71,9 @@ public class Player : MonoBehaviour
         {
             // Calculate the backward direction based on the character's current forward vector
             // Multiplying by -1 reverses the direction
-            tempSpeed = moveSpeed;
-            Vector3 moveDirection = -transform.right;
+            moveSpeed = maxMoveSpeed;
+            moveDirection = -transform.right;
+            anim.SetBool("Walking", true);
 
             // Move the character in the backward direction
             // Time.deltaTime ensures frame-rate independent movement
@@ -75,8 +83,9 @@ public class Player : MonoBehaviour
         {
             // Calculate the backward direction based on the character's current forward vector
             // Multiplying by -1 reverses the direction
-            tempSpeed = moveSpeed;
-            Vector3 moveDirection = transform.right;
+            moveSpeed = maxMoveSpeed;
+            moveDirection = transform.right;
+            anim.SetBool("Walking", true);
 
             // Move the character in the backward direction
             // Time.deltaTime ensures frame-rate independent movement
@@ -95,7 +104,9 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        rigidBody.velocity = moveDirection * tempSpeed;
+        rigidBody.velocity = new Vector3(0, 0, 0);
+        rigidBody.angularVelocity = 0f;
+        rigidBody.velocity = moveDirection * moveSpeed;
         //if (!ui.isPaused())
         //{
 
@@ -151,7 +162,7 @@ public class Player : MonoBehaviour
         }
         if ((collision.collider.gameObject.tag == "Wall"))
         {
-            tempSpeed = 0;
+            moveSpeed = 0;
         }
     }
 

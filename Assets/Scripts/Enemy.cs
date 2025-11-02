@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    ControlAssignment control = new ControlAssignment();
     Player p;
     CameraMove c;
+    public Rigidbody2D rigidBody;
     const float maxMoveSpeed = 1f;
     float moveSpeed;
     float maxHitPoints;
@@ -15,6 +17,10 @@ public class Enemy : MonoBehaviour
     float isShotTime;
     int damageDealt;
     string enemyName;
+    bool pushed;
+    const float pushTime = 0.3f;
+    const float pushMoveSpeed = -7f;
+    float tempTime;
     Vector3 movement;
     //UIHandler ui;
     const float offScreenX = -25f;
@@ -22,6 +28,8 @@ public class Enemy : MonoBehaviour
     const float beenShotTime = 0.5f;
     Vector3 playerWorldPos;
     Vector3 direction;
+    Vector3 moveDirection;
+    public Animator anim;
 
 
     void Start()
@@ -35,12 +43,18 @@ public class Enemy : MonoBehaviour
         playerWorldPos.z = 0;
         direction = playerWorldPos - transform.position;
         moveSpeed = maxMoveSpeed;
+        rigidBody = GetComponent<Rigidbody2D>();
+        rigidBody.velocity = new Vector3(0, 0, 0);
+        pushed = false;
+        tempTime = pushTime;
+        anim.SetBool("Walking", true);
+
         //ui = GameObject.Find("SceneHandler").GetComponent<UIHandler>();
 
 
         if (enemyName.Contains("Zombie"))
         {
-            setBaseHP(1);
+            setBaseHP(5);
             setDamageDealt(1);
             //setBaseHP(gameObject.GetComponent<Zombie>().getMaxHP());
             //setDamageDealt(gameObject.GetComponent<Zombie>().getDamageDealt());
@@ -99,6 +113,17 @@ public class Enemy : MonoBehaviour
         if (//!ui.isPaused() && 
             c.isWithinDistance(transform.position) && !isDead())
         {
+            if (pushed == true && tempTime > 0)
+            {
+                moveSpeed = pushMoveSpeed;
+                tempTime -= Time.deltaTime;
+            }
+            if (pushed == true && tempTime <= 0)
+            {
+                moveSpeed = maxMoveSpeed;
+                tempTime = pushTime;
+                pushed = false;
+            }
             playerWorldPos = p.transform.position;
             playerWorldPos.z = 0;
             direction = playerWorldPos - transform.position;
@@ -107,12 +132,23 @@ public class Enemy : MonoBehaviour
             angle -= 90; // Example adjustment
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
-            Vector3 forwardDirection = transform.up;
+            moveDirection = transform.up;
             // Move the character in the backward direction
             // Time.deltaTime ensures frame-rate independent movement
-            transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
+            //transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
         }
 
+    }
+
+    void FixedUpdate()
+    {
+        rigidBody.velocity = new Vector3(0, 0, 0);
+        rigidBody.angularVelocity = 0f;
+        rigidBody.velocity = moveDirection * moveSpeed;
+        //if (!ui.isPaused())
+        //{
+
+        //}
     }
 
     public Color takeDamage(float damage)
@@ -216,9 +252,21 @@ public class Enemy : MonoBehaviour
         
     }
 
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.tag == "Player"
+            && Input.GetKey(control.playerPush()))
+        {
+            pushed = true;
+
+        }
+
+    }
+
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.tag == "Player")
+        if (collision.collider.gameObject.tag == "Player"
+            && pushed == false)
         {
             moveSpeed = maxMoveSpeed;
         }
