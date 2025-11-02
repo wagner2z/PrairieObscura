@@ -24,6 +24,12 @@ public class ControlAssignment
     {
         return KeyCode.W;
     }
+
+    public KeyCode playerPush()
+    {
+        return KeyCode.Space;
+    }
+
     /*public KeyCode characterDash()
     {
         return KeyCode.Z;
