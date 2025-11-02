@@ -7,7 +7,8 @@ public class Enemy : MonoBehaviour
 {
     Player p;
     CameraMove c;
-    float moveSpeed = 1f;
+    const float maxMoveSpeed = 1f;
+    float moveSpeed;
     float maxHitPoints;
     float currentHP;
     bool facingRight;
@@ -19,6 +20,8 @@ public class Enemy : MonoBehaviour
     const float offScreenX = -25f;
     const float offScreenY = -15f;
     const float beenShotTime = 0.5f;
+    Vector3 playerWorldPos;
+    Vector3 direction;
 
 
     void Start()
@@ -28,13 +31,17 @@ public class Enemy : MonoBehaviour
         enemyName = gameObject.name;
         isShotTime = 0;
         transform.rotation = Quaternion.Euler(0, 0, 0);
+        playerWorldPos = p.transform.position;
+        playerWorldPos.z = 0;
+        direction = playerWorldPos - transform.position;
+        moveSpeed = maxMoveSpeed;
         //ui = GameObject.Find("SceneHandler").GetComponent<UIHandler>();
 
 
         if (enemyName.Contains("Zombie"))
         {
             setBaseHP(1);
-            setDamageDealt(0);
+            setDamageDealt(1);
             //setBaseHP(gameObject.GetComponent<Zombie>().getMaxHP());
             //setDamageDealt(gameObject.GetComponent<Zombie>().getDamageDealt());
         }
@@ -54,6 +61,7 @@ public class Enemy : MonoBehaviour
         else
         {
             GetComponent<Renderer>().enabled = true;
+            //tempTime -= Time.deltaTime;
             /*if (!ui.isPaused())
             {
                 if (enemyName.Contains("Zombie"))
@@ -91,9 +99,10 @@ public class Enemy : MonoBehaviour
         if (//!ui.isPaused() && 
             c.isWithinDistance(transform.position) && !isDead())
         {
-            Vector3 playerWorldPos = p.transform.position;
+            playerWorldPos = p.transform.position;
             playerWorldPos.z = 0;
-            Vector3 direction = playerWorldPos - transform.position;
+            direction = playerWorldPos - transform.position;
+
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             angle -= 90; // Example adjustment
             transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -110,7 +119,7 @@ public class Enemy : MonoBehaviour
     {
         currentHP = currentHP - damage;
         isShotTime = beenShotTime;
-        Debug.Log("HP of enemy shot is " + currentHP);
+        Debug.Log("HP of enemy is " + currentHP);
         return Color.red;
     }
     public bool isDead()
@@ -200,27 +209,18 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        /*if (collision.collider.gameObject.tag == "Shot")
+        if (collision.collider.gameObject.tag == "Player")
         {
-            GetComponent<Renderer>().material.color = takeDamage(collision.collider.gameObject.GetComponent<Shot>().getDamage());
+            moveSpeed = 0f;
         }
-        if (collision.collider.gameObject.tag == "MeleeHit")
-        {
-            weaponSelect = GameObject.Find("WeaponSelect");
-            GetComponent<Renderer>().material.color = takeDamage(weaponSelect.GetComponent<WeaponSelect>().getCurrentMeleeWeapon().GetComponent<Melee>().getDamage());
-        }
-
-        if (collision.collider.gameObject.tag == "Enemy")
-        {
-            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
-        }*/
+        
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    void OnCollisionExit2D(Collision2D collision)
     {
-        /*if (collision.collider.gameObject.tag == "Enemy")
+        if (collision.collider.gameObject.tag == "Player")
         {
-            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
-        }*/
+            moveSpeed = maxMoveSpeed;
+        }
     }
 }
