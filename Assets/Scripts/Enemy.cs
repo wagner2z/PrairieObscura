@@ -11,10 +11,11 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D rigidBody;
     const float maxMoveSpeed = 1f;
     float moveSpeed;
-    float maxHitPoints;
-    float currentHP;
+    int maxHitPoints;
+    int currentHP;
     bool facingRight;
-    float isShotTime;
+    float isHitTime;
+    const float beenHitTime = 0.5f;
     int damageDealt;
     string enemyName;
     bool pushed;
@@ -25,7 +26,6 @@ public class Enemy : MonoBehaviour
     //UIHandler ui;
     const float offScreenX = -64.5f;
     const float offScreenY = 12.6f;
-    const float beenShotTime = 0.5f;
     Vector3 playerWorldPos;
     Vector3 direction;
     Vector3 moveDirection;
@@ -38,10 +38,11 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        //Physics.IgnoreLayerCollision(0, 5);
         p = GameObject.Find("Player").GetComponent<Player>();
         c = GameObject.Find("Main Camera").GetComponent<CameraMove>();
         enemyName = gameObject.name;
-        isShotTime = 0;
+        isHitTime = 0;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         playerWorldPos = p.transform.position;
         playerWorldPos.z = 0;
@@ -100,6 +101,17 @@ public class Enemy : MonoBehaviour
             //transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
         }
 
+        GetComponent<Renderer>().material.color = hitTime();
+
+
+        if (isDead())
+        {
+            gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
+            rigidBody.constraints = RigidbodyConstraints2D.FreezePosition;
+            // move offscreen and not move
+            //gameObject.SetActive(false);
+        }
+
     }
 
     void FixedUpdate()
@@ -113,13 +125,13 @@ public class Enemy : MonoBehaviour
         //}
     }
 
-    public Color takeDamage(float damage)
+    public void takeDamage(int damage)
     {
         currentHP = currentHP - damage;
-        isShotTime = beenShotTime;
+        isHitTime = beenHitTime;
         Debug.Log("HP of enemy is " + currentHP);
-        return Color.red;
     }
+
     public bool isDead()
     {
         if (currentHP <= 0)
@@ -131,11 +143,11 @@ public class Enemy : MonoBehaviour
             return false;
         }
     }
-    public Color shotTime()
+    public Color hitTime()
     {
-        if (isShotTime > 0)
+        if (isHitTime > 0)
         {
-            isShotTime -= Time.deltaTime;
+            isHitTime -= Time.deltaTime;
             return Color.red;
         }
         else
@@ -144,7 +156,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void setBaseHP(float hp)
+    public void setBaseHP(int hp)
     {
         setMaxHP(hp);
         setCurrentHP(hp);
@@ -155,17 +167,17 @@ public class Enemy : MonoBehaviour
         return maxHitPoints;
     }
 
-    public void setMaxHP(float hp)
+    public void setMaxHP(int hp)
     {
         maxHitPoints = hp;
     }
 
-    public float getCurrentHP()
+    public int getCurrentHP()
     {
         return currentHP;
     }
 
-    public void setCurrentHP(float hp)
+    public void setCurrentHP(int hp)
     {
         currentHP = hp;
     }
@@ -190,9 +202,9 @@ public class Enemy : MonoBehaviour
         facingRight = isFacingRight;
     }
 
-    public float getShotTime()
+    public float getHitTime()
     {
-        return isShotTime;
+        return isHitTime;
     }
 
     public float getX()

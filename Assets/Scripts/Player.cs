@@ -5,10 +5,14 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     ControlAssignment control = new ControlAssignment();
+    SpriteRenderer sRenderer;
+    public Sprite idleSprite;
+    public Sprite shootSprite;
     const float maxWalkSpeed = 5f;
     const float maxRunSpeed = 8f;
     float moveSpeed;
     public Rigidbody2D rigidBody;
+    GameObject shoot_cursor;
     //float xVel;
     //float yVel;
     const int maxHitPoints = 10;
@@ -21,6 +25,7 @@ public class Player : MonoBehaviour
     float tempDiffTime;
     float isHitTime;
     const float beenHitTime = 0.5f;
+    int testGunDamage = 5;
     Vector3 faceDirection;
     Vector3 moveDirection;
     public Animator anim;
@@ -28,21 +33,26 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Physics.IgnoreLayerCollision(0, 5);
         currentHP = maxHitPoints;
         currentStamina = maxStamina;
         isHitTime = 0f;
         tempRecoverTime = recoverTime;
         tempDiffTime = staminaDiffTime;
+        sRenderer = gameObject.GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(0, 0, 0);
         moveSpeed = 0;
+        shoot_cursor = GameObject.Find("Shoot_Cursor");
         anim.SetBool("Walking", false);
+        sRenderer.sprite = shootSprite;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("Sprite is: " + sRenderer.sprite.name);
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
         faceDirection = mouseWorldPos - new Vector3(rigidBody.position.x, rigidBody.position.y, 0);
@@ -53,85 +63,103 @@ public class Player : MonoBehaviour
         anim.SetBool("Walking", false);
         moveSpeed = 0;
 
-        if (Input.GetKey(control.characterMoveBack()))
+        if (Input.GetKey(control.playerFirePosition()))
         {
-            // Calculate the backward direction based on the character's current forward vector
-            // Multiplying by -1 reverses the direction
-            if (Input.GetKey(control.characterDash()) && currentStamina > 0)
+            Cursor.visible = false;
+            shoot_cursor.GetComponent<Renderer>().enabled = true;
+            shoot_cursor.transform.position = mouseWorldPos;
+            //sRenderer.sprite = shootSprite;
+            if (Input.GetKeyDown(control.playerShoot()))
             {
-                moveSpeed = maxRunSpeed;
-                useStamina();
+                firedShot();
             }
-            else
-            {
-                moveSpeed = maxWalkSpeed;
-            }
-            moveDirection = -transform.up;
-            anim.SetBool("Walking", true);
-
-            // Move the character in the backward direction
-            // Time.deltaTime ensures frame-rate independent movement
-            //transform.Translate(backwardDirection * moveSpeed * Time.deltaTime, Space.World);
         }
-        if (Input.GetKey(control.characterMoveForward()))
-        {
-            // Calculate the backward direction based on the character's current forward vector
-            // Multiplying by -1 reverses the direction
-            if (Input.GetKey(control.characterDash()) && currentStamina > 0)
-            {
-                moveSpeed = maxRunSpeed;
-                useStamina();
-            }
-            else
-            {
-                moveSpeed = maxWalkSpeed;
-            }
-            moveDirection = transform.up;
-            anim.SetBool("Walking", true);
 
-            // Move the character in the backward direction
-            // Time.deltaTime ensures frame-rate independent movement
-            //transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
-        }
-        if (Input.GetKey(control.characterMoveLeft()))
+        else
         {
-            // Calculate the backward direction based on the character's current forward vector
-            // Multiplying by -1 reverses the direction
-            if (Input.GetKey(control.characterDash()) && currentStamina > 0)
+            Cursor.visible = true;
+            shoot_cursor.GetComponent<Renderer>().enabled = false;
+            sRenderer.sprite = idleSprite;
+            if (Input.GetKey(control.characterMoveBack()))
             {
-                moveSpeed = maxRunSpeed;
-                useStamina();
-            }
-            else
-            {
-                moveSpeed = maxWalkSpeed;
-            }
-            moveDirection = -transform.right;
-            anim.SetBool("Walking", true);
+                // Calculate the backward direction based on the character's current forward vector
+                // Multiplying by -1 reverses the direction
+                if (Input.GetKey(control.characterDash()) && currentStamina > 0)
+                {
+                    moveSpeed = maxRunSpeed;
+                    useStamina();
+                }
+                else
+                {
+                    moveSpeed = maxWalkSpeed;
+                }
+                moveDirection = -transform.up;
+                anim.SetBool("Walking", true);
 
-            // Move the character in the backward direction
-            // Time.deltaTime ensures frame-rate independent movement
-            //transform.Translate(leftDirection * moveSpeed * Time.deltaTime, Space.World);
-        }
-        if (Input.GetKey(control.characterMoveRight()))
-        {
-            // Calculate the backward direction based on the character's current forward vector
-            // Multiplying by -1 reverses the direction
-            if (Input.GetKey(control.characterDash()) && currentStamina > 0)
-            {
-                moveSpeed = maxRunSpeed;
-                useStamina();
+                // Move the character in the backward direction
+                // Time.deltaTime ensures frame-rate independent movement
+                //transform.Translate(backwardDirection * moveSpeed * Time.deltaTime, Space.World);
             }
-            else
+            if (Input.GetKey(control.characterMoveForward()))
             {
-                moveSpeed = maxWalkSpeed;
-            }
-            moveDirection = transform.right;
-            anim.SetBool("Walking", true);
+                // Calculate the backward direction based on the character's current forward vector
+                // Multiplying by -1 reverses the direction
+                if (Input.GetKey(control.characterDash()) && currentStamina > 0)
+                {
+                    moveSpeed = maxRunSpeed;
+                    useStamina();
+                }
+                else
+                {
+                    moveSpeed = maxWalkSpeed;
+                }
+                moveDirection = transform.up;
+                anim.SetBool("Walking", true);
 
-            // Move the character in the backward direction
-            // Time.deltaTime ensures frame-rate independent movement
-            //transform.Translate(rightDirection * moveSpeed * Time.deltaTime, Space.World);
+                // Move the character in the backward direction
+                // Time.deltaTime ensures frame-rate independent movement
+                //transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
+            }
+            if (Input.GetKey(control.characterMoveLeft()))
+            {
+                // Calculate the backward direction based on the character's current forward vector
+                // Multiplying by -1 reverses the direction
+                if (Input.GetKey(control.characterDash()) && currentStamina > 0)
+                {
+                    moveSpeed = maxRunSpeed;
+                    useStamina();
+                }
+                else
+                {
+                    moveSpeed = maxWalkSpeed;
+                }
+                moveDirection = -transform.right;
+                anim.SetBool("Walking", true);
+
+                // Move the character in the backward direction
+                // Time.deltaTime ensures frame-rate independent movement
+                //transform.Translate(leftDirection * moveSpeed * Time.deltaTime, Space.World);
+            }
+            if (Input.GetKey(control.characterMoveRight()))
+            {
+                // Calculate the backward direction based on the character's current forward vector
+                // Multiplying by -1 reverses the direction
+                if (Input.GetKey(control.characterDash()) && currentStamina > 0)
+                {
+                    moveSpeed = maxRunSpeed;
+                    useStamina();
+                }
+                else
+                {
+                    moveSpeed = maxWalkSpeed;
+                }
+                moveDirection = transform.right;
+                anim.SetBool("Walking", true);
+
+                // Move the character in the backward direction
+                // Time.deltaTime ensures frame-rate independent movement
+                //transform.Translate(rightDirection * moveSpeed * Time.deltaTime, Space.World);
+            }
         }
 
         if(!Input.GetKey(control.characterDash()))
@@ -268,6 +296,21 @@ public class Player : MonoBehaviour
             tempRecoverTime = recoverTime;
             tempDiffTime = (staminaDiffTime * 2);
         }
+    }
+
+    public void firedShot()
+    {
+        StartCoroutine(gameObject.transform.GetChild(0).GetComponent<Gunshot_Effect>().gunshot());
+        anim.Play("lee_shoot_handgun_v1", 0, 0);
+        GameObject enemyTarget = shoot_cursor.GetComponent<ShootCursor>().getEnemyTarget();
+        shoot_cursor.GetComponent<ShootCursor>().anim.Play("default", 0, 0);
+        if (enemyTarget != null)
+        {
+            float damageDealt = (testGunDamage * shoot_cursor.GetComponent<ShootCursor>().getLockOnTime());
+            enemyTarget.GetComponent<Enemy>().takeDamage((int)damageDealt + 1);
+        }
+        //anim.SetBool("Shot Fired", false);
+
     }
 
     public int getMaxHP()
