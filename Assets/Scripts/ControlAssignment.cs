@@ -40,6 +40,11 @@ public class ControlAssignment
         return KeyCode.Mouse0;
     }
 
+    public KeyCode playerFirePosition()
+    {
+        return KeyCode.F;
+    }
+
     /*public KeyCode characterDash()
     {
         return KeyCode.Z;

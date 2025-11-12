@@ -19,17 +19,14 @@ public class Gunshot_Effect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(control.playerShoot()))
-        {
-            StartCoroutine(gunshot(timeActive));
-        }
+        
     }
 
-    IEnumerator gunshot(float t)
+    public IEnumerator gunshot()
     {
         shot_light.enabled = true;
         shot_flare.Play();
-        yield return new WaitForSeconds(t);
+        yield return new WaitForSeconds(timeActive);
         shot_light.enabled = false;
         shot_flare.Stop();
         yield return null;
