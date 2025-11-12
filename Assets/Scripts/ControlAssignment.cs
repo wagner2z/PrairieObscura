@@ -25,9 +25,19 @@ public class ControlAssignment
         return KeyCode.W;
     }
 
+    public KeyCode characterDash()
+    {
+        return KeyCode.Q;
+    }
+
     public KeyCode playerPush()
     {
         return KeyCode.Space;
+    }
+
+    public KeyCode playerShoot()
+    {
+        return KeyCode.Mouse0;
     }
 
     /*public KeyCode characterDash()

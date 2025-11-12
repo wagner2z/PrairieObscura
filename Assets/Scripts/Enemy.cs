@@ -23,14 +23,18 @@ public class Enemy : MonoBehaviour
     float tempTime;
     Vector3 movement;
     //UIHandler ui;
-    const float offScreenX = -25f;
-    const float offScreenY = -15f;
+    const float offScreenX = -64.5f;
+    const float offScreenY = 12.6f;
     const float beenShotTime = 0.5f;
     Vector3 playerWorldPos;
     Vector3 direction;
     Vector3 moveDirection;
     public Animator anim;
 
+    void Awake()
+    {
+        transform.position = new Vector3(offScreenX, offScreenY, 0);
+    }
 
     void Start()
     {
@@ -51,19 +55,10 @@ public class Enemy : MonoBehaviour
 
         //ui = GameObject.Find("SceneHandler").GetComponent<UIHandler>();
 
-
-        if (enemyName.Contains("Zombie"))
-        {
-            setBaseHP(5);
-            setDamageDealt(1);
+        setBaseHP(5);
+        setDamageDealt(1);
             //setBaseHP(gameObject.GetComponent<Zombie>().getMaxHP());
             //setDamageDealt(gameObject.GetComponent<Zombie>().getDamageDealt());
-        }
-        /*else if (enemyName.Contains("Murder Goose"))
-        {
-            setBaseHP(gameObject.GetComponent<RaptorGoose>().getMaxHP());
-            setDamageDealt(gameObject.GetComponent<RaptorGoose>().getDamageDealt());
-        }*/
     }
 
     void Update()
@@ -72,46 +67,13 @@ public class Enemy : MonoBehaviour
         {
             GetComponent<Renderer>().enabled = false;
         }
+
         else
         {
             GetComponent<Renderer>().enabled = true;
-            //tempTime -= Time.deltaTime;
-            /*if (!ui.isPaused())
-            {
-                if (enemyName.Contains("Zombie"))
-                {
-                    //gameObject.GetComponent<SpoonGoon>().setAnimSpeed(1);
-                }
-                /*else if (enemyName.Contains("Murder Goose"))
-                {
-                    movement = gameObject.GetComponent<RaptorGoose>().move();
-                    gameObject.GetComponent<RaptorGoose>().setAnimSpeed(1);
-                }
-
-                GetComponent<Renderer>().material.color = shotTime();
-
-
-                if (isDead())
-                {
-                    gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
-                    // move offscreen and not move
-                    //gameObject.SetActive(false);
-                }
-            }
-            else
-            {
-                /*if (enemyName.Contains("Spoon Goon"))
-                {
-                    gameObject.GetComponent<SpoonGoon>().setAnimSpeed(0);
-                }
-                else if (enemyName.Contains("Murder Goose"))
-                {
-                    gameObject.GetComponent<RaptorGoose>().setAnimSpeed(0);
-                }
-            }*/
+           
         }
-        if (//!ui.isPaused() && 
-            c.isWithinDistance(transform.position) && !isDead())
+        if (c.isWithinDistance(transform.position) && !isDead())
         {
             if (pushed == true && tempTime > 0)
             {
