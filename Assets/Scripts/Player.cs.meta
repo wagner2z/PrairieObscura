@@ -3,7 +3,11 @@ guid: 9212641684c7f73429a46aeab819d459
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - idleSprite: {fileID: -6344366300872234645, guid: dc44b15aae0da6849ae9ff0e9718524c, type: 3}
+  - shootSprite: {fileID: 21300000, guid: 48e8ad89600568445a952132ead87079, type: 3}
+  - rigidBody: {instanceID: 0}
+  - anim: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

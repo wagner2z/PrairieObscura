@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     ControlAssignment control = new ControlAssignment();
     Player p;
     CameraMove c;
+    MapSetup map;
     public Rigidbody2D rigidBody;
     const float maxMoveSpeed = 1f;
     float moveSpeed;
@@ -21,6 +22,7 @@ public class Enemy : MonoBehaviour
     bool pushed;
     const float pushTime = 0.3f;
     const float pushMoveSpeed = -7f;
+    bool markedDead;
     float tempTime;
     Vector3 movement;
     //UIHandler ui;
@@ -34,6 +36,7 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         transform.position = new Vector3(offScreenX, offScreenY, 0);
+        markedDead = true;
     }
 
     void Start()
@@ -41,6 +44,7 @@ public class Enemy : MonoBehaviour
         //Physics.IgnoreLayerCollision(0, 5);
         p = GameObject.Find("Player").GetComponent<Player>();
         c = GameObject.Find("Main Camera").GetComponent<CameraMove>();
+        map = GameObject.Find("SceneHandler").GetComponent<MapSetup>();
         enemyName = gameObject.name;
         isHitTime = 0;
         transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -51,6 +55,7 @@ public class Enemy : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(0, 0, 0);
         pushed = false;
+
         tempTime = pushTime;
         anim.SetBool("Walking", true);
 
@@ -108,6 +113,11 @@ public class Enemy : MonoBehaviour
         {
             gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
             rigidBody.constraints = RigidbodyConstraints2D.FreezePosition;
+            if (!markedDead)
+            {
+                map.removeEnemy();
+                markDead();
+            }
             // move offscreen and not move
             //gameObject.SetActive(false);
         }
@@ -162,7 +172,7 @@ public class Enemy : MonoBehaviour
         setCurrentHP(hp);
     }
 
-    public float getMaxHP()
+    public int getMaxHP()
     {
         return maxHitPoints;
     }
@@ -215,6 +225,16 @@ public class Enemy : MonoBehaviour
     public float getY()
     {
         return transform.position.y;
+    }
+
+    public void markDead()
+    {
+        markedDead = true;
+    }
+
+    public void unmarkDead()
+    {
+        markedDead = false;
     }
 
     void OnCollisionEnter2D(Collision2D collision)

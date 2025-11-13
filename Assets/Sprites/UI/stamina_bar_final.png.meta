@@ -1,7 +1,103 @@
 fileFormatVersion: 2
 guid: 0b6368b74c2cae344b15b2b9e7566a53
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -3615732476488223857
+    second: stamina_bar_final_0
+  - first:
+      213: 3623408365720667077
+    second: stamina_bar_final_1
+  - first:
+      213: -3351335408094739168
+    second: stamina_bar_final_2
+  - first:
+      213: -8625598853473088088
+    second: stamina_bar_final_3
+  - first:
+      213: 9201342131184792029
+    second: stamina_bar_final_4
+  - first:
+      213: -9033465813709307431
+    second: stamina_bar_final_5
+  - first:
+      213: 5811080834096566119
+    second: stamina_bar_final_6
+  - first:
+      213: -3699128384608369807
+    second: stamina_bar_final_7
+  - first:
+      213: -5105429994174172685
+    second: stamina_bar_final_8
+  - first:
+      213: 6809742278385932251
+    second: stamina_bar_final_9
+  - first:
+      213: 1683020391405026216
+    second: stamina_bar_final_10
+  - first:
+      213: 2989059775447021056
+    second: stamina_bar_final_11
+  - first:
+      213: 8184870344267987760
+    second: stamina_bar_final_12
+  - first:
+      213: 3440441807583022129
+    second: stamina_bar_final_13
+  - first:
+      213: -3060578477191927754
+    second: stamina_bar_final_14
+  - first:
+      213: -8495538078763770116
+    second: stamina_bar_final_15
+  - first:
+      213: 4956147834816245653
+    second: stamina_bar_final_16
+  - first:
+      213: 2926203779729580106
+    second: stamina_bar_final_17
+  - first:
+      213: 4360407832674529314
+    second: stamina_bar_final_18
+  - first:
+      213: 1598615431299094875
+    second: stamina_bar_final_19
+  - first:
+      213: -4689604541279642362
+    second: stamina_bar_final_20
+  - first:
+      213: 8077721244522098367
+    second: stamina_bar_final_21
+  - first:
+      213: -2837764700972357409
+    second: stamina_bar_final_22
+  - first:
+      213: -7085143746739804219
+    second: stamina_bar_final_23
+  - first:
+      213: 3119008757575940499
+    second: stamina_bar_final_24
+  - first:
+      213: -623678247276834050
+    second: stamina_bar_final_25
+  - first:
+      213: 4101810885224641214
+    second: stamina_bar_final_26
+  - first:
+      213: 5566869432771038353
+    second: stamina_bar_final_27
+  - first:
+      213: -202949586575897986
+    second: stamina_bar_final_28
+  - first:
+      213: 6467945940943990058
+    second: stamina_bar_final_29
+  - first:
+      213: 398904979954521525
+    second: stamina_bar_final_30
+  - first:
+      213: -4080653435959021159
+    second: stamina_bar_final_31
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,7 +137,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -75,9 +171,693 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: stamina_bar_final_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1968
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f837318387652ddc0800000000000000
+      internalID: -3615732476488223857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_1
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 1968
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c385f206bee84230800000000000000
+      internalID: 3623408365720667077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_2
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 1968
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0250355d33aad71d0800000000000000
+      internalID: -3351335408094739168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_3
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 1968
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ad48bb0b87bb4880800000000000000
+      internalID: -8625598853473088088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_4
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 1968
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd1fa12eaebb1bf70800000000000000
+      internalID: 9201342131184792029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1640
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d1c83b24bea2a280800000000000000
+      internalID: -9033465813709307431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_6
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 1640
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76f086dea3b15a050800000000000000
+      internalID: 5811080834096566119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_7
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 1640
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1738ad0455e0aacc0800000000000000
+      internalID: -3699128384608369807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_8
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 1640
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f1bf93587ed529b0800000000000000
+      internalID: -5105429994174172685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_9
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 1640
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd7172bc580118e50800000000000000
+      internalID: 6809742278385932251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1312
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ab7f63012a4b5710800000000000000
+      internalID: 1683020391405026216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_11
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 1312
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 006bdef67064b7920800000000000000
+      internalID: 2989059775447021056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_12
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 1312
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03bf8ba7630869170800000000000000
+      internalID: 8184870344267987760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_13
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 1312
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13c83638897eebf20800000000000000
+      internalID: 3440441807583022129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_14
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 1312
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 638e4c33714a685d0800000000000000
+      internalID: -3060578477191927754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 984
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfe1b7fe029c91a80800000000000000
+      internalID: -8495538078763770116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_16
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 984
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59f2b8c6236c7c440800000000000000
+      internalID: 4956147834816245653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_17
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 984
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a40ef2f75d6fb9820800000000000000
+      internalID: 2926203779729580106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_18
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 984
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 220756642d7438c30800000000000000
+      internalID: 4360407832674529314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_19
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 984
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b595a03d34c6f2610800000000000000
+      internalID: 1598615431299094875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 656
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60dd7fb248d2beeb0800000000000000
+      internalID: -4689604541279642362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_21
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 656
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbead5e9ca4d91070800000000000000
+      internalID: 8077721244522098367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_22
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 656
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd866622a0c3e98d0800000000000000
+      internalID: -2837764700972357409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_23
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 656
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c76ef01d438cad90800000000000000
+      internalID: -7085143746739804219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_24
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 656
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39975a690f1f84b20800000000000000
+      internalID: 3119008757575940499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 328
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef21de040ff3857f0800000000000000
+      internalID: -623678247276834050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_26
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 328
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb235ad844f8ce830800000000000000
+      internalID: 4101810885224641214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_27
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 328
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19c4c4b214e714d40800000000000000
+      internalID: 5566869432771038353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_28
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 328
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7ac4d02d6afe2df0800000000000000
+      internalID: -202949586575897986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_29
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 328
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2d656c8092c2c950800000000000000
+      internalID: 6467945940943990058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b5d25d37f1398500800000000000000
+      internalID: 398904979954521525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stamina_bar_final_31
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 0
+        width: 328
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9917f2af15b9e57c0800000000000000
+      internalID: -4080653435959021159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

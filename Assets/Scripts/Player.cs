@@ -39,28 +39,29 @@ public class Player : MonoBehaviour
         isHitTime = 0f;
         tempRecoverTime = recoverTime;
         tempDiffTime = staminaDiffTime;
-        sRenderer = gameObject.GetComponent<SpriteRenderer>();
+        this.sRenderer = gameObject.GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(0, 0, 0);
         moveSpeed = 0;
         shoot_cursor = GameObject.Find("Shoot_Cursor");
         anim.SetBool("Walking", false);
-        sRenderer.sprite = shootSprite;
+        anim.SetBool("Shooting", false);
+        this.sRenderer.sprite = shootSprite;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Sprite is: " + sRenderer.sprite.name);
+        Debug.Log("Sprite is: " + sRenderer.sprite.name);
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
         faceDirection = mouseWorldPos - new Vector3(rigidBody.position.x, rigidBody.position.y, 0);
         float angle = Mathf.Atan2(faceDirection.y, faceDirection.x) * Mathf.Rad2Deg;
         angle -= 90; // Example adjustment
         transform.rotation = Quaternion.Euler(0, 0, angle);
-
         anim.SetBool("Walking", false);
+        anim.SetBool("Shooting", false);
         moveSpeed = 0;
 
         if (Input.GetKey(control.playerFirePosition()))
@@ -68,6 +69,7 @@ public class Player : MonoBehaviour
             Cursor.visible = false;
             shoot_cursor.GetComponent<Renderer>().enabled = true;
             shoot_cursor.transform.position = mouseWorldPos;
+            anim.SetBool("Shooting", true);
             //sRenderer.sprite = shootSprite;
             if (Input.GetKeyDown(control.playerShoot()))
             {
@@ -77,6 +79,7 @@ public class Player : MonoBehaviour
 
         else
         {
+            anim.SetBool("Shooting", false);
             Cursor.visible = true;
             shoot_cursor.GetComponent<Renderer>().enabled = false;
             sRenderer.sprite = idleSprite;
