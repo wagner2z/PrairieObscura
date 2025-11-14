@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     ControlAssignment control = new ControlAssignment();
-    SpriteRenderer sRenderer;
+    GunTypes[] availableGuns;
     public Sprite idleSprite;
     public Sprite shootSprite;
     const float maxWalkSpeed = 5f;
@@ -35,25 +35,27 @@ public class Player : MonoBehaviour
     {
         //Physics.IgnoreLayerCollision(0, 5);
         currentHP = maxHitPoints;
+        availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 6f, true, GameObject.Find("RevolverUI (1)"));
+        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 2f, true, GameObject.Find("BoltRifleUI (1)"));
+        availableGuns[0] = new GunTypes("double barrel shotgun", 1, 12, 6, 4f, true, GameObject.Find("DoubleBarrelUI (1)"));
         currentStamina = maxStamina;
         isHitTime = 0f;
         tempRecoverTime = recoverTime;
         tempDiffTime = staminaDiffTime;
-        this.sRenderer = gameObject.GetComponent<SpriteRenderer>();
+        //this.sRenderer = gameObject.GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(0, 0, 0);
         moveSpeed = 0;
         shoot_cursor = GameObject.Find("Shoot_Cursor");
         anim.SetBool("Walking", false);
         anim.SetBool("Shooting", false);
-        this.sRenderer.sprite = shootSprite;
+        //this.sRenderer.sprite = shootSprite;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Sprite is: " + sRenderer.sprite.name);
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
         faceDirection = mouseWorldPos - new Vector3(rigidBody.position.x, rigidBody.position.y, 0);
@@ -82,7 +84,6 @@ public class Player : MonoBehaviour
             anim.SetBool("Shooting", false);
             Cursor.visible = true;
             shoot_cursor.GetComponent<Renderer>().enabled = false;
-            sRenderer.sprite = idleSprite;
             if (Input.GetKey(control.characterMoveBack()))
             {
                 // Calculate the backward direction based on the character's current forward vector
