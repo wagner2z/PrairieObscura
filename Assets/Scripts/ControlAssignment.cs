@@ -60,6 +60,11 @@ public class ControlAssignment
         return KeyCode.RightArrow;
     }
 
+    public KeyCode start()
+    {
+        return KeyCode.Return;
+    }
+
     /*public KeyCode characterDash()
     {
         return KeyCode.Z;
@@ -97,11 +102,6 @@ public class ControlAssignment
     public KeyCode action()
     {
         return KeyCode.E;
-    }
-
-    public KeyCode start()
-    {
-        return KeyCode.Return;
     }
 
     public KeyCode pause()

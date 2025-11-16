@@ -2,22 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Studio_Logo_Cutscene : MonoBehaviour
 {
+    ControlAssignment control = new ControlAssignment();
     RawImage darkScreen;
+    bool titleFinished;
     // Start is called before the first frame update
     void Start()
     {
         gameObject.GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
         darkScreen = GameObject.Find("Cut Scene").GetComponent<RawImage>();
         darkScreen.enabled = true;
+        titleFinished = false;
         StartCoroutine(studioLogoAction());
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (titleFinished)
+        {
+            if (Input.GetKey(control.start()))
+            {
+                SceneManager.LoadScene("MainScene");
+            }
+        }
         /*if (gameStart.isSkipped())
         {
             if (coroutineRun)
@@ -53,6 +64,7 @@ public class Studio_Logo_Cutscene : MonoBehaviour
             darkScreen.color = new Color(0f, 0f, 0f, i);
             yield return new WaitForSeconds(0.1f);
         }
+        titleFinished = true;
         yield return null;
     }
 

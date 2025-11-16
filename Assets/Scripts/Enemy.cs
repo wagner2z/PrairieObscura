@@ -126,9 +126,16 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        rigidBody.velocity = new Vector3(0, 0, 0);
-        rigidBody.angularVelocity = 0f;
-        rigidBody.velocity = moveDirection * moveSpeed;
+        if (!p.isDead())
+        {
+            rigidBody.velocity = new Vector3(0, 0, 0);
+            rigidBody.angularVelocity = 0f;
+            rigidBody.velocity = moveDirection * moveSpeed;
+        }
+        else
+        {
+            rigidBody.velocity = new Vector3(0, 0, 0);
+        }
         //if (!ui.isPaused())
         //{
 
