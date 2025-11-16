@@ -2,25 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct GunTypes
+public class GunTypes
 {
     string gunName;
     int gunUpgrade; // 1 for base, 2 for first upgrade, 3 for second upgrade
     int gunMaxDamage;
-    int gunAmmo;
+    int maxGunAmmo;
+    int currentAmmo;
+    int ammoPerShot;
     float gunReloadTime;
     bool gunAvailable;
-    GameObject gunUI;
+    Transform gunUI;
+    RuntimeAnimatorController animControl;
 
-    public GunTypes(string name, int upgrade, int damage, int ammo, float reload, bool available, GameObject interfaceObj)
+    public GunTypes(string name, int upgrade, int damage, int ammo, int perShot, float reload, bool available, Transform interfaceObj, RuntimeAnimatorController ac)
     {
         gunName = name;
         gunUpgrade = upgrade;
         gunMaxDamage = damage;
-        gunAmmo = ammo;
+        maxGunAmmo = ammo;
+        currentAmmo = maxGunAmmo;
+        ammoPerShot = perShot;
         gunReloadTime = reload;
         gunAvailable = available;
         gunUI = interfaceObj;
+        animControl = ac;
     }
 
     public string getGunName() 
@@ -53,14 +59,39 @@ public struct GunTypes
         gunMaxDamage = d;
     }
 
-    public int getGunAmmo()
+    public int getMaxGunAmmo()
     {
-        return gunAmmo;
+        return maxGunAmmo;
     }
 
-    public void setGunAmmo(int a)
+    public int getCurrentGunAmmo()
     {
-        gunAmmo = a;
+        return currentAmmo;
+    }
+
+    public void reduceAmmo()
+    {
+        if (currentAmmo > 0)
+        {
+            currentAmmo -= ammoPerShot;
+        }
+    }
+
+    public bool outOfAmmo()
+    {
+        if(currentAmmo == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void reload()
+    {
+        currentAmmo = maxGunAmmo;
     }
 
     public float getGunReloadTime()
@@ -83,14 +114,19 @@ public struct GunTypes
         gunAvailable = a;
     }
 
-    public GameObject getGunUI()
+    public Transform getGunUI()
     {
         return gunUI;
     }
 
-    public void setGunUI(GameObject ui)
+    public void setGunUI(Transform ui)
     {
         gunUI = ui;
+    }
+
+    public RuntimeAnimatorController getAnimator()
+    {
+        return animControl;
     }
 }
 

@@ -82397,6 +82397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 434813985}
   - component: {fileID: 434813987}
+  - component: {fileID: 434813986}
   m_Layer: 5
   m_Name: SelectedGun
   m_TagString: Untagged
@@ -82426,6 +82427,18 @@ RectTransform:
   m_AnchoredPosition: {x: -801, y: -440}
   m_SizeDelta: {x: 328, y: 328}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &434813986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434813984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0991759c5bb954a877c1c33346e1e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &434813987
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -85776,6 +85789,10 @@ MonoBehaviour:
   shootSprite: {fileID: 21300000, guid: 48e8ad89600568445a952132ead87079, type: 3}
   rigidBody: {fileID: 980000757}
   anim: {fileID: 980000756}
+  baseAnim: {fileID: 9100000, guid: e2fa85f850e62f541951adf4f2d85192, type: 2}
+  handgun1: {fileID: 22100000, guid: 4e1de1ae156f1bf45a3a5cf25939e4cc, type: 2}
+  rifle1: {fileID: 22100000, guid: 2332568cf2bbad249810773036eca3eb, type: 2}
+  shotgun1: {fileID: 22100000, guid: 22b0b95b664d2a8469c6d4db366e9f33, type: 2}
 --- !u!212 &980000754
 SpriteRenderer:
   m_ObjectHideFlags: 0

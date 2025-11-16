@@ -45,6 +45,21 @@ public class ControlAssignment
         return KeyCode.F;
     }
 
+    public KeyCode reloadGun()
+    {
+        return KeyCode.R;
+    }
+
+    public KeyCode switchWeaponLeft()
+    {
+        return KeyCode.LeftArrow;
+    }
+
+    public KeyCode switchWeaponRight()
+    {
+        return KeyCode.RightArrow;
+    }
+
     /*public KeyCode characterDash()
     {
         return KeyCode.Z;
