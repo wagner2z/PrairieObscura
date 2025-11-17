@@ -54,3 +54,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+!Prairie Obscura DEMO.exe
+!UnityCrashHandler64.exe
+!UnityPlayer.dll
