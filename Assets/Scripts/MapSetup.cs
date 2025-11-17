@@ -8,10 +8,13 @@ using TMPro;
 public class MapSetup : MonoBehaviour
 {
     WaveLayout w = new WaveLayout();
+    Player p;
     float xBoundLeft;
     float xBoundRight;
     float yBoundUp;
     float yBoundDown;
+    float xPosition;
+    float yPosition;
     GameObject[] enemies;
     int enemyCount;
     int enemyTotal;
@@ -23,6 +26,7 @@ public class MapSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        p = GameObject.Find("Player").GetComponent<Player>();
         waveCount = 1;
         waveMsg = GameObject.Find("New Wave Message").GetComponent<TextMeshProUGUI>();
         waveMsg.text = "";
@@ -32,6 +36,8 @@ public class MapSetup : MonoBehaviour
         xBoundRight = 20f;
         yBoundDown = -20f;
         yBoundUp = 15f;
+        xPosition = 0;
+        yPosition = 0;
         /*xBoundLeft = -45.5f;
         xBoundRight = 44f;
         yBoundDown = -50f;
@@ -57,7 +63,25 @@ public class MapSetup : MonoBehaviour
         enemyTotal = 0;
         foreach (GameObject e in enemies)
         {
-            e.transform.position = new Vector3(Random.Range(xBoundLeft, xBoundRight), Random.Range(yBoundDown, yBoundUp), 0);
+            int tempR = Random.Range(0, 2);
+            if(tempR == 0)
+            {
+                xPosition = Random.Range(xBoundLeft, p.transform.position.x - 1f);
+            }
+            else
+            {
+                xPosition = Random.Range(p.transform.position.x + 1f, xBoundRight);
+            }
+            tempR = Random.Range(0, 2);
+            if (tempR == 0)
+            {
+                yPosition = Random.Range(yBoundDown, p.transform.position.y - 1f);
+            }
+            else
+            {
+                yPosition = Random.Range(p.transform.position.y + 1f, yBoundUp);
+            }
+            e.transform.position = new Vector3(xPosition, yPosition, 0);
             e.GetComponent<Enemy>().rigidBody.constraints = RigidbodyConstraints2D.None;
             e.GetComponent<Enemy>().setCurrentHP(e.GetComponent<Enemy>().getMaxHP());
             e.GetComponent<Enemy>().unmarkDead();

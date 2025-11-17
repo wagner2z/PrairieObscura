@@ -26,7 +26,7 @@ public class Studio_Logo_Cutscene : MonoBehaviour
         {
             if (Input.GetKey(control.start()))
             {
-                SceneManager.LoadScene("MainScene");
+                SceneManager.LoadScene("ControlsScene");
             }
         }
         /*if (gameStart.isSkipped())

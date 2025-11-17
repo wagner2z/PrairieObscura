@@ -41,6 +41,12 @@ public class Player : MonoBehaviour
     public RuntimeAnimatorController rifle1;
     public RuntimeAnimatorController shotgun1;
 
+    AudioSource playerSounds;
+    public AudioClip shootSound;
+    public AudioClip reloadSound;
+    public AudioClip completeReloadSound;
+    public AudioClip equipSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,8 +58,8 @@ public class Player : MonoBehaviour
         //Transform uiParent = canvas.Find("SelectedGun").transform;
         availableGuns = new GunTypes [maxWeaponPos + 1];
         availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 1, 3f, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1);
-        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 0.5f, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1);
-        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 4f, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1);
+        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 0.67f, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1);
+        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 0.82f, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1);
         currentStamina = maxStamina;
         isHitTime = 0f;
         tempRecoverTime = recoverTime;
@@ -68,6 +74,8 @@ public class Player : MonoBehaviour
         anim.SetBool("Walking", false);
         anim.SetBool("Shooting", false);
         anim.SetBool("Reloading", false);
+
+        playerSounds = GetComponent<AudioSource>();
         //this.sRenderer.sprite = shootSprite;
 
     }
@@ -227,6 +235,8 @@ public class Player : MonoBehaviour
                 {
                     currentGun.reload();
                     anim.SetBool("Reloading", false);
+                    playerSounds.clip = completeReloadSound;
+                    playerSounds.Play();
                     isReloading = false;
                 }
             }
@@ -406,6 +416,8 @@ public class Player : MonoBehaviour
                 if (weaponAvailable)
                 {
                     isEquipped = true;
+                    playerSounds.clip = equipSound;
+                    playerSounds.Play();
                 }
                 else
                 {
@@ -437,6 +449,8 @@ public class Player : MonoBehaviour
                 if (weaponAvailable)
                 {
                     isEquipped = true;
+                    playerSounds.clip = equipSound;
+                    playerSounds.Play();
                 }
                 else
                 {
@@ -463,6 +477,8 @@ public class Player : MonoBehaviour
         GameObject enemyTarget = shoot_cursor.GetComponent<ShootCursor>().getEnemyTarget();
         shoot_cursor.GetComponent<ShootCursor>().anim.Play("default", 0, 0);
         currentGun.reduceAmmo();
+        playerSounds.clip = shootSound;
+        playerSounds.Play();
         if (enemyTarget != null)
         {
             float damageDealt = (currentGun.getGunDamage() * shoot_cursor.GetComponent<ShootCursor>().getLockOnTime());
@@ -476,7 +492,9 @@ public class Player : MonoBehaviour
     {
        tempReloadTime = currentGun.getGunReloadTime();
        anim.SetBool("Reloading", true);
-       isReloading = true;
+        playerSounds.clip = reloadSound;
+        playerSounds.Play();
+        isReloading = true;
     }
 
     public int getMaxHP()
