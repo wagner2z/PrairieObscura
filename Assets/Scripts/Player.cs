@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     const float beenHitTime = 0.5f;
     float tempReloadTime;
     bool isReloading;
+    bool isInside;
     //int testGunDamage = 5;
     Vector3 faceDirection;
     Vector3 moveDirection;
@@ -66,6 +67,7 @@ public class Player : MonoBehaviour
         tempDiffTime = staminaDiffTime;
         tempReloadTime = 0f;
         isReloading = false;
+        isInside = false;
         //this.sRenderer = gameObject.GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(0, 0, 0);
@@ -517,6 +519,11 @@ public class Player : MonoBehaviour
         isEquipped = e;
     }
 
+    public bool playerInside()
+    {
+        return isInside;
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if ((collision.collider.gameObject.tag == "Enemy") && isHitTime <= 0f)
@@ -534,6 +541,13 @@ public class Player : MonoBehaviour
         {
             moveSpeed = 0;
         }
+
+        if(collision.collider.gameObject.tag == "Door")
+        {
+            gameObject.transform.position = new Vector3(-15.4f, 57f, 0);
+            isInside = true;
+        }
+
     }
 
 
