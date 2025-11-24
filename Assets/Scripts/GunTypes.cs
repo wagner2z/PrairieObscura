@@ -7,6 +7,7 @@ public class GunTypes
     string gunName;
     int gunUpgrade; // 1 for base, 2 for first upgrade, 3 for second upgrade
     int gunMaxDamage;
+    int meleeDamage;
     int maxGunAmmo;
     int currentAmmo;
     int ammoPerShot;
@@ -15,11 +16,12 @@ public class GunTypes
     Transform gunUI;
     RuntimeAnimatorController animControl;
 
-    public GunTypes(string name, int upgrade, int damage, int ammo, int perShot, float reload, bool available, Transform interfaceObj, RuntimeAnimatorController ac)
+    public GunTypes(string name, int upgrade, int damage, int ammo, int perShot, float reload, int melee, bool available, Transform interfaceObj, RuntimeAnimatorController ac)
     {
         gunName = name;
         gunUpgrade = upgrade;
         gunMaxDamage = damage;
+        meleeDamage = melee;
         maxGunAmmo = ammo;
         currentAmmo = maxGunAmmo;
         ammoPerShot = perShot;
@@ -57,6 +59,16 @@ public class GunTypes
     public void setGunDamage(int d)
     {
         gunMaxDamage = d;
+    }
+
+    public int getMeleeDamage()
+    {
+        return meleeDamage;
+    }
+
+    public void setMeleeDamage(int m)
+    {
+        meleeDamage = m;
     }
 
     public int getMaxGunAmmo()

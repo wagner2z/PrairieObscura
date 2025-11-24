@@ -26,6 +26,11 @@ public class ShootCursor : MonoBehaviour
             stateInfo = anim.GetCurrentAnimatorStateInfo(0);
             lockOnTime = stateInfo.normalizedTime;
         }
+        else
+        {
+            anim.Play("default", 0, 0);
+            lockOnTime = 0f;
+        }
     }
 
     public GameObject getEnemyTarget()
@@ -40,7 +45,7 @@ public class ShootCursor : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "Enemy")
+        if (collider.gameObject.tag == "Enemy" && GetComponent<Renderer>().enabled)
         {
             anim.Play("active_cursor", 0, 0);
             enemySelected = collider.gameObject;
@@ -50,7 +55,7 @@ public class ShootCursor : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collider)
     {
-        if(collider.gameObject.tag == "Enemy")
+        if(collider.gameObject.tag == "Enemy" && GetComponent<Renderer>().enabled)
         {
             if(stateInfo.IsName("default"))
             {

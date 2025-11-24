@@ -214,6 +214,11 @@ public class Enemy : MonoBehaviour
         return facingRight;
     }
 
+    public void setPushed()
+    {
+        pushed = true;
+    }
+
     public void setFacingDirection(bool isFacingRight)
     {
         facingRight = isFacingRight;
@@ -253,16 +258,18 @@ public class Enemy : MonoBehaviour
         
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    /*void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.collider.gameObject.tag == "Player"
-            && Input.GetKey(control.playerPush()))
+            && Input.GetKey(control.playerPush())
+            && Vector3.Dot(direction, collision.collider.gameObject.transform.forward) > 0)
         {
             pushed = true;
-
+            takeDamage(1);
+            
         }
 
-    }
+    }*/
 
     void OnCollisionExit2D(Collision2D collision)
     {

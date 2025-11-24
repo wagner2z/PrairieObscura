@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     ControlAssignment control = new ControlAssignment();
+    const float startX = 0f;
+    const float startY = -2.9f;
     GunTypes[] availableGuns;
     GunTypes currentGun;
     GameObject canvas;
@@ -52,15 +54,16 @@ public class Player : MonoBehaviour
     void Start()
     {
         //Physics.IgnoreLayerCollision(0, 5);
+        transform.position = new Vector3(startX, startY, -0.72f);
         currentHP = maxHitPoints;
         isEquipped = false;
         currentWeaponPos = -1;
         canvas = GameObject.Find("Canvas");
         //Transform uiParent = canvas.Find("SelectedGun").transform;
         availableGuns = new GunTypes [maxWeaponPos + 1];
-        availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 1, 3f, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1);
-        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 0.67f, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1);
-        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 0.82f, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1);
+        availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1);
+        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 0.67f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1);
+        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1);
         currentStamina = maxStamina;
         isHitTime = 0f;
         tempRecoverTime = recoverTime;
@@ -544,10 +547,28 @@ public class Player : MonoBehaviour
 
         if(collision.collider.gameObject.tag == "Door")
         {
-            gameObject.transform.position = new Vector3(-15.4f, 57f, 0);
-            isInside = true;
+            Door d = collision.collider.gameObject.GetComponent<Door>();
+            gameObject.transform.position = new Vector3(d.xPlacement, d.yPlacement, 0);
+            isInside = d.indoors;
         }
 
+    }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.tag == "Enemy"
+            && Input.GetKey(control.playerPush())
+            && Vector3.Dot(faceDirection, Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position)) > 0)
+        {
+            if (isEquipped)
+            {
+                collision.collider.gameObject.GetComponent<Enemy>().takeDamage(currentGun.getMeleeDamage());
+            }
+            collision.collider.gameObject.GetComponent<Enemy>().setPushed();
+            //collision.collider.gameObject.GetComponent<Enemy>().takeDamage(1);
+            //Debug.Log("Dot is " + Vector3.Dot(faceDirection, Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position)));
+            
+        }
     }
 
 
