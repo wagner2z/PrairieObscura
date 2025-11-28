@@ -15,8 +15,9 @@ public class GunTypes
     bool gunAvailable;
     Transform gunUI;
     RuntimeAnimatorController animControl;
+    bool singleHanded;
 
-    public GunTypes(string name, int upgrade, int damage, int ammo, int perShot, float reload, int melee, bool available, Transform interfaceObj, RuntimeAnimatorController ac)
+    public GunTypes(string name, int upgrade, int damage, int ammo, int perShot, float reload, int melee, bool available, Transform interfaceObj, RuntimeAnimatorController ac, bool hand)
     {
         gunName = name;
         gunUpgrade = upgrade;
@@ -29,6 +30,7 @@ public class GunTypes
         gunAvailable = available;
         gunUI = interfaceObj;
         animControl = ac;
+        singleHanded = hand;
     }
 
     public string getGunName() 
@@ -134,6 +136,15 @@ public class GunTypes
     public void setGunUI(Transform ui)
     {
         gunUI = ui;
+    }
+
+    public bool isSingleHanded()
+    {
+        return singleHanded;
+    }
+
+    public void setSingleHanded(bool s) { 
+        singleHanded = s;
     }
 
     public RuntimeAnimatorController getAnimator()

@@ -5,11 +5,16 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     ControlAssignment control = new ControlAssignment();
+    PointCounter point;
+    WinHandler won;
     const float startX = 0f;
     const float startY = -2.9f;
+    const float offScreenX = -105f;
+    const float offScreenY = 80f;
     GunTypes[] availableGuns;
     GunTypes currentGun;
     GameObject canvas;
+    GameObject carryable;
     int currentWeaponPos;
     bool isEquipped;
     const int maxWeaponPos = 2;
@@ -35,6 +40,9 @@ public class Player : MonoBehaviour
     float tempReloadTime;
     bool isReloading;
     bool isInside;
+    bool isCarryingObject;
+    const float pickUpWaitTime = 0.2f;
+    float tempWaitTime;
     //int testGunDamage = 5;
     Vector3 faceDirection;
     Vector3 moveDirection;
@@ -43,6 +51,7 @@ public class Player : MonoBehaviour
     public RuntimeAnimatorController handgun1;
     public RuntimeAnimatorController rifle1;
     public RuntimeAnimatorController shotgun1;
+    GameObject pickedUpObject;
 
     AudioSource playerSounds;
     public AudioClip shootSound;
@@ -54,23 +63,29 @@ public class Player : MonoBehaviour
     void Start()
     {
         //Physics.IgnoreLayerCollision(0, 5);
+        won = GameObject.Find("SceneHandler").GetComponent<WinHandler>();
+        point = GameObject.Find("Point Counter").GetComponent<PointCounter>();
         transform.position = new Vector3(startX, startY, -0.72f);
         currentHP = maxHitPoints;
         isEquipped = false;
         currentWeaponPos = -1;
         canvas = GameObject.Find("Canvas");
+        carryable = transform.GetChild(1).gameObject;
+        carryable.GetComponent<Renderer>().enabled = false;
         //Transform uiParent = canvas.Find("SelectedGun").transform;
         availableGuns = new GunTypes [maxWeaponPos + 1];
-        availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1);
-        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 0.67f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1);
-        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1);
+        availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
+        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 0.67f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
+        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
         currentStamina = maxStamina;
         isHitTime = 0f;
         tempRecoverTime = recoverTime;
         tempDiffTime = staminaDiffTime;
+        tempWaitTime = 0f;
         tempReloadTime = 0f;
         isReloading = false;
         isInside = false;
+        isCarryingObject = false;
         //this.sRenderer = gameObject.GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(0, 0, 0);
@@ -88,7 +103,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isDead())
+        if (!isDead() && !hasWon())
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mouseWorldPos.z = 0;
@@ -99,6 +114,12 @@ public class Player : MonoBehaviour
             anim.SetBool("Walking", false);
             anim.SetBool("Shooting", false);
             moveSpeed = 0;
+
+            if(tempWaitTime > 0)
+            {
+                tempWaitTime -= Time.deltaTime;
+            }
+
             if (isEquipped)
             {
                 anim.runtimeAnimatorController = currentGun.getAnimator();
@@ -106,6 +127,11 @@ public class Player : MonoBehaviour
             else
             {
                 anim.runtimeAnimatorController = baseAnim;
+            }
+
+            if(Input.GetKeyDown(control.pickUpOrDrop()) && isCarryingObject && tempWaitTime <= 0)
+            {
+                dropCarryableObject();
             }
 
             if (Input.GetKey(control.playerFirePosition()) && isEquipped && !isReloading)
@@ -128,7 +154,7 @@ public class Player : MonoBehaviour
                 shoot_cursor.GetComponent<Renderer>().enabled = false;
                 if (!isReloading)
                 {
-                    if (isEquipped && Input.GetKeyDown(control.reloadGun()))
+                    if (isEquipped && !isCarryingObject && Input.GetKeyDown(control.reloadGun()))
                     {
                         reloadGun();
                     }
@@ -212,11 +238,12 @@ public class Player : MonoBehaviour
                         // Time.deltaTime ensures frame-rate independent movement
                         //transform.Translate(rightDirection * moveSpeed * Time.deltaTime, Space.World);
                     }
-                    if (Input.GetKeyDown(control.switchWeaponLeft()))
+                    float scroll = Input.GetAxis("Mouse ScrollWheel");
+                    if (scroll < 0f)
                     {
                         swapWeapon('l');
                     }
-                    if (Input.GetKeyDown(control.switchWeaponRight()))
+                    if (scroll > 0f)
                     {
                         swapWeapon('r');
                     }
@@ -285,6 +312,11 @@ public class Player : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public bool hasWon()
+    {
+        return won.hasWon();
     }
 
     public int getStamina()
@@ -412,10 +444,23 @@ public class Player : MonoBehaviour
                 {
                     if (availableGuns[i].getGunAvailable())
                     {
-                        currentGun = availableGuns[i];
-                        currentWeaponPos = i;
-                        weaponAvailable = true;
-                        break;
+                        if (!isCarryingObject)
+                        {
+                            currentGun = availableGuns[i];
+                            currentWeaponPos = i;
+                            weaponAvailable = true;
+                            break;
+                        }
+                        else
+                        {
+                            if (availableGuns[i].isSingleHanded())
+                            {
+                                currentGun = availableGuns[i];
+                                currentWeaponPos = i;
+                                weaponAvailable = true;
+                                break;
+                            }
+                        }
                     }
                 }
                 if (weaponAvailable)
@@ -445,10 +490,23 @@ public class Player : MonoBehaviour
                 {
                     if (availableGuns[i].getGunAvailable())
                     {
-                        currentGun = availableGuns[i];
-                        currentWeaponPos = i;
-                        weaponAvailable = true;
-                        break;
+                        if (!isCarryingObject)
+                        {
+                            currentGun = availableGuns[i];
+                            currentWeaponPos = i;
+                            weaponAvailable = true;
+                            break;
+                        }
+                        else
+                        {
+                            if (availableGuns[i].isSingleHanded())
+                            {
+                                currentGun = availableGuns[i];
+                                currentWeaponPos = i;
+                                weaponAvailable = true;
+                                break;
+                            }
+                        }
                     }
                 }
                 if (weaponAvailable)
@@ -527,6 +585,42 @@ public class Player : MonoBehaviour
         return isInside;
     }
 
+    public bool carryingObject()
+    {
+        return isCarryingObject;
+    }
+
+    public GameObject carriedObject()
+    {
+        return pickedUpObject;
+    }
+
+    public void setCarryableObject()
+    {
+        carryable.GetComponent<Renderer>().enabled = true;
+        currentWeaponPos = -1;
+        isEquipped = false;
+        carryable.GetComponent<SpriteRenderer>().sprite = pickedUpObject.GetComponent<SpriteRenderer>().sprite;
+        isCarryingObject = true;
+        tempWaitTime = pickUpWaitTime;
+    }
+
+    public void removeCarryableObject()
+    {
+        carryable.GetComponent<Renderer>().enabled = false;
+        isCarryingObject = false;
+    }
+
+    public void dropCarryableObject()
+    {
+        pickedUpObject.GetComponent<Renderer>().enabled = true;
+        pickedUpObject.transform.position = transform.position;
+        carryable.GetComponent<Renderer>().enabled = false;
+        isCarryingObject = false;
+        tempWaitTime = pickUpWaitTime;
+    }
+
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if ((collision.collider.gameObject.tag == "Enemy") && isHitTime <= 0f)
@@ -552,6 +646,8 @@ public class Player : MonoBehaviour
             isInside = d.indoors;
         }
 
+        
+
     }
 
     void OnCollisionStay2D(Collision2D collision)
@@ -568,6 +664,21 @@ public class Player : MonoBehaviour
             //collision.collider.gameObject.GetComponent<Enemy>().takeDamage(1);
             //Debug.Log("Dot is " + Vector3.Dot(faceDirection, Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position)));
             
+        }
+
+    }
+
+    void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "CarryObject")
+        {
+            if (Input.GetKeyDown(control.pickUpOrDrop()) && !isCarryingObject && tempWaitTime <= 0)
+            {
+                collider.gameObject.GetComponent<Renderer>().enabled = false;
+                collider.gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
+                pickedUpObject = collider.gameObject;
+                setCarryableObject();
+            }
         }
     }
 

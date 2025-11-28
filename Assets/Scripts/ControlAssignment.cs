@@ -27,7 +27,7 @@ public class ControlAssignment
 
     public KeyCode characterDash()
     {
-        return KeyCode.Q;
+        return KeyCode.LeftShift;
     }
 
     public KeyCode playerPush()
@@ -37,12 +37,12 @@ public class ControlAssignment
 
     public KeyCode playerShoot()
     {
-        return KeyCode.Mouse0;
+        return KeyCode.Mouse1;
     }
 
     public KeyCode playerFirePosition()
     {
-        return KeyCode.F;
+        return KeyCode.Mouse0;
     }
 
     public KeyCode reloadGun()
@@ -50,15 +50,20 @@ public class ControlAssignment
         return KeyCode.R;
     }
 
-    public KeyCode switchWeaponLeft()
+    public KeyCode pickUpOrDrop()
     {
-        return KeyCode.LeftArrow;
+        return KeyCode.F;
+    }
+
+    /*public KeyCode switchWeaponLeft()
+    {
+        return KeyCode.WheelDown;
     }
 
     public KeyCode switchWeaponRight()
     {
-        return KeyCode.RightArrow;
-    }
+        return KeyCode.WheelUp;
+    }*/
 
     public KeyCode start()
     {

@@ -6,14 +6,17 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     ControlAssignment control = new ControlAssignment();
+    PointCounter point;
     Player p;
     CameraMove c;
     MapSetup map;
     public Rigidbody2D rigidBody;
+    public AudioSource enemyNoise;
     const float maxMoveSpeed = 1f;
     float moveSpeed;
     int maxHitPoints;
     int currentHP;
+    int pointsWorth;
     bool facingRight;
     float isHitTime;
     const float beenHitTime = 0.5f;
@@ -26,12 +29,13 @@ public class Enemy : MonoBehaviour
     float tempTime;
     Vector3 movement;
     //UIHandler ui;
-    const float offScreenX = -64.5f;
-    const float offScreenY = 12.6f;
+    const float offScreenX = -105f;
+    const float offScreenY = 80f;
     Vector3 playerWorldPos;
     Vector3 direction;
     Vector3 moveDirection;
     public Animator anim;
+    bool isInside;
 
     void Awake()
     {
@@ -45,6 +49,7 @@ public class Enemy : MonoBehaviour
         p = GameObject.Find("Player").GetComponent<Player>();
         c = GameObject.Find("Main Camera").GetComponent<CameraMove>();
         map = GameObject.Find("SceneHandler").GetComponent<MapSetup>();
+        point = GameObject.Find("Point Counter").GetComponent<PointCounter>();
         enemyName = gameObject.name;
         isHitTime = 0;
         transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -55,6 +60,7 @@ public class Enemy : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(0, 0, 0);
         pushed = false;
+        isInside = false;
 
         tempTime = pushTime;
         anim.SetBool("Walking", true);
@@ -63,6 +69,7 @@ public class Enemy : MonoBehaviour
 
         setBaseHP(5);
         setDamageDealt(1);
+        setPointsWorth(10);
             //setBaseHP(gameObject.GetComponent<Zombie>().getMaxHP());
             //setDamageDealt(gameObject.GetComponent<Zombie>().getDamageDealt());
     }
@@ -72,6 +79,7 @@ public class Enemy : MonoBehaviour
         if (!c.isWithinDistance(transform.position))
         {
             GetComponent<Renderer>().enabled = false;
+            enemyNoise.Stop();
         }
 
         else
@@ -79,8 +87,35 @@ public class Enemy : MonoBehaviour
             GetComponent<Renderer>().enabled = true;
            
         }
-        if (c.isWithinDistance(transform.position) && !isDead())
+        if (c.isWithinDistance(transform.position) && !isDead() && !p.hasWon())
         {
+            if(Vector3.Distance(transform.position, p.transform.position) > 15f)
+            {
+                enemyNoise.volume = 0f;
+            }
+            else if(Vector3.Distance(transform.position, p.transform.position) < 15f &&
+                Vector3.Distance(transform.position, p.transform.position) > 10f)
+            {
+                enemyNoise.volume = 0.25f;
+            }
+            else if(Vector3.Distance(transform.position, p.transform.position) < 10f &&
+                Vector3.Distance(transform.position, p.transform.position) > 7f)
+            {
+                enemyNoise.volume = 0.5f;
+            }
+            else if (Vector3.Distance(transform.position, p.transform.position) < 7f &&
+                Vector3.Distance(transform.position, p.transform.position) > 3f)
+            {
+                enemyNoise.volume = 0.75f;
+            }
+            else
+            {
+                enemyNoise.volume = 1f;
+            }
+            if (!enemyNoise.isPlaying)
+            {
+                enemyNoise.Play();
+            }
             if (pushed == true && tempTime > 0)
             {
                 moveSpeed = pushMoveSpeed;
@@ -113,9 +148,11 @@ public class Enemy : MonoBehaviour
         {
             gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
             rigidBody.constraints = RigidbodyConstraints2D.FreezePosition;
+            enemyNoise.Stop();
             if (!markedDead)
             {
                 map.removeEnemy();
+                point.increasePoints(pointsWorth);
                 markDead();
             }
             // move offscreen and not move
@@ -194,6 +231,11 @@ public class Enemy : MonoBehaviour
         return currentHP;
     }
 
+    public void setPointsWorth(int p)
+    {
+        pointsWorth = p;
+    }
+
     public void setCurrentHP(int hp)
     {
         currentHP = hp;
@@ -255,7 +297,14 @@ public class Enemy : MonoBehaviour
         {
             moveSpeed = 0f;
         }
-        
+
+        if (collision.collider.gameObject.tag == "Door")
+        {
+            Door d = collision.collider.gameObject.GetComponent<Door>();
+            gameObject.transform.position = new Vector3(d.xPlacement, d.yPlacement, 0);
+            isInside = d.indoors;
+        }
+
     }
 
     /*void OnCollisionStay2D(Collision2D collision)

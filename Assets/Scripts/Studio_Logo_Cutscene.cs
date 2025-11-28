@@ -9,6 +9,13 @@ public class Studio_Logo_Cutscene : MonoBehaviour
     ControlAssignment control = new ControlAssignment();
     RawImage darkScreen;
     bool titleFinished;
+    public AudioSource music;
+    public AudioSource sfx;
+    float tempWait;
+    bool startUp;
+    const float waitTime = 1f;
+    //public AudioClip titleMusic;
+    //public AudioClip startSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,19 +23,40 @@ public class Studio_Logo_Cutscene : MonoBehaviour
         darkScreen = GameObject.Find("Cut Scene").GetComponent<RawImage>();
         darkScreen.enabled = true;
         titleFinished = false;
+        startUp = false;
+        //music.loop = true;
+        //music.clip = titleMusic;
+        //sfx.clip = startSound;
+        tempWait = 0f;
         StartCoroutine(studioLogoAction());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (titleFinished)
+        if (titleFinished && !startUp)
         {
             if (Input.GetKey(control.start()))
+            {
+                sfx.Play();
+                startUp = true;
+                tempWait = waitTime;
+            }
+        }
+
+        if (startUp)
+        {
+            if(tempWait > 0)
+            {
+                tempWait -= Time.deltaTime;
+            }
+            else
             {
                 SceneManager.LoadScene("ControlsScene");
             }
         }
+
+       
         /*if (gameStart.isSkipped())
         {
             if (coroutineRun)
@@ -43,6 +71,7 @@ public class Studio_Logo_Cutscene : MonoBehaviour
     IEnumerator studioLogoAction()
     {
         //coroutineRun = true;
+        music.Play();
         yield return new WaitForSeconds(2);
         for (float i = 0f; i <= 1f;)
         {

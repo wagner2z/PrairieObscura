@@ -9,16 +9,17 @@ using TMPro;
 public class DeathHandler : MonoBehaviour
 {
     Player p;
-    TextMeshProUGUI deathMessageUI;
+    TextMeshProUGUI messageUI;
     ControlAssignment control = new ControlAssignment();
     bool isAlreadyDead;
 
     // Start is called before the first frame update
     void Start()
     {
+        isAlreadyDead = false;
         p = GameObject.Find("Player").GetComponent<Player>();
-        deathMessageUI = GameObject.Find("DeathMessage").GetComponent<TextMeshProUGUI>();
-        deathMessageUI.enabled = false;
+        messageUI = GameObject.Find("Message").GetComponent<TextMeshProUGUI>();
+        messageUI.enabled = false;
         isAlreadyDead = false;
     }
 
@@ -28,12 +29,14 @@ public class DeathHandler : MonoBehaviour
         if (p.getHP() <= 0 && !isAlreadyDead)
         {
             isAlreadyDead = true;
-            deathMessageUI.enabled = true;
+            messageUI.text = "You Are Dead\nPress Enter to Restart";
+            messageUI.color = Color.red;
+            messageUI.enabled = true;
         }
         if (isAlreadyDead && Input.GetKeyDown(control.start()))
         {
             isAlreadyDead = false;
-            deathMessageUI.enabled = false;
+            messageUI.enabled = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

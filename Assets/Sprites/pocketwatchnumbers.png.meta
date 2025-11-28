@@ -1,7 +1,37 @@
 fileFormatVersion: 2
 guid: 4492b9d2f724e6b468123f9f395ca890
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -8438265270460945748
+    second: pocketwatchnumbers_0
+  - first:
+      213: -752680827010849937
+    second: pocketwatchnumbers_1
+  - first:
+      213: 1084259617895026066
+    second: pocketwatchnumbers_2
+  - first:
+      213: 2744623606499443747
+    second: pocketwatchnumbers_3
+  - first:
+      213: 4022484350981876544
+    second: pocketwatchnumbers_4
+  - first:
+      213: 3372472314474407684
+    second: pocketwatchnumbers_5
+  - first:
+      213: -4064333138685265277
+    second: pocketwatchnumbers_6
+  - first:
+      213: 8071806728506259064
+    second: pocketwatchnumbers_7
+  - first:
+      213: -4432356188962824240
+    second: pocketwatchnumbers_8
+  - first:
+      213: -2295748345292056982
+    second: pocketwatchnumbers_9
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,7 +71,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -75,9 +105,231 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: pocketwatchnumbers_0
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 198
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caae8a1c17245ea80800000000000000
+      internalID: -8438265270460945748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pocketwatchnumbers_1
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 198
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6365c496c0fd85f0800000000000000
+      internalID: -752680827010849937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pocketwatchnumbers_2
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 198
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29d0fe8b0601c0f00800000000000000
+      internalID: 1084259617895026066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pocketwatchnumbers_3
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 155
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3240d83e0acd61620800000000000000
+      internalID: 2744623606499443747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pocketwatchnumbers_4
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 155
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04ba7d6843cb2d730800000000000000
+      internalID: 4022484350981876544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pocketwatchnumbers_5
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 155
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 407261fa3bd6dce20800000000000000
+      internalID: 3372472314474407684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pocketwatchnumbers_6
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 153
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38af0db4b869897c0800000000000000
+      internalID: -4064333138685265277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pocketwatchnumbers_7
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 113
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 876393c0471d40070800000000000000
+      internalID: 8071806728506259064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pocketwatchnumbers_8
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 111
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0dfddde978b1d72c0800000000000000
+      internalID: -4432356188962824240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pocketwatchnumbers_9
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 110
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a661d291b0dd320e0800000000000000
+      internalID: -2295748345292056982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
