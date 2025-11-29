@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     public float xPlacement;
     public float yPlacement;
     public int pointsNeeded;
+    PointCounter point;
     public bool indoors;
     Color flashingColor;
     bool doorUnlocked;
@@ -14,7 +15,15 @@ public class Door : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        doorUnlocked = false;
+        point = GameObject.Find("Point Counter").GetComponent<PointCounter>();
+        if (indoors)
+        {
+            doorUnlocked = false;
+        }
+        else
+        {
+            doorUnlocked = true;
+        }
         flashingColor = Color.white;
     }
 
@@ -30,5 +39,16 @@ public class Door : MonoBehaviour
             flashingColor = Color.Lerp(Color.white, Color.red, Mathf.PingPong(Time.time, 1));
         }
         GetComponent<SpriteRenderer>().color = flashingColor;
+    }
+
+    public bool isDoorUnlocked()
+    {
+        return doorUnlocked;
+    }
+
+    public void unlockDoor()
+    {
+        doorUnlocked = true;
+        point.decreasePoints(pointsNeeded);
     }
 }

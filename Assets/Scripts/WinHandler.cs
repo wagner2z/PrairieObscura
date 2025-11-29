@@ -17,10 +17,9 @@ public class WinHandler : MonoBehaviour
     void Start()
     {
         hasAlreadyWon = false;
-        c = GameObject.Find("car").GetComponent<CarFix>();
+        c = GameObject.Find("Truck").GetComponent<CarFix>();
         messageUI = GameObject.Find("Message").GetComponent<TextMeshProUGUI>();
         messageUI.enabled = false;
-        //isAlreadyDead = false;
     }
 
     // Update is called once per frame

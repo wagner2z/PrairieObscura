@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
     ControlAssignment control = new ControlAssignment();
     PointCounter point;
     WinHandler won;
+    TextMeshProUGUI subMessageUI;
+    Inventory inventory;
     const float startX = 0f;
     const float startY = -2.9f;
     const float offScreenX = -105f;
@@ -64,7 +67,10 @@ public class Player : MonoBehaviour
     {
         //Physics.IgnoreLayerCollision(0, 5);
         won = GameObject.Find("SceneHandler").GetComponent<WinHandler>();
+        inventory = GameObject.Find("SceneHandler").GetComponent<Inventory>();
         point = GameObject.Find("Point Counter").GetComponent<PointCounter>();
+        subMessageUI = GameObject.Find("SubMessage").GetComponent<TextMeshProUGUI>();
+        subMessageUI.enabled = false;
         transform.position = new Vector3(startX, startY, -0.72f);
         currentHP = maxHitPoints;
         isEquipped = false;
@@ -74,9 +80,10 @@ public class Player : MonoBehaviour
         carryable.GetComponent<Renderer>().enabled = false;
         //Transform uiParent = canvas.Find("SelectedGun").transform;
         availableGuns = new GunTypes [maxWeaponPos + 1];
-        availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
-        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 0.67f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
-        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
+        availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 0, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
+        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 1, 0.67f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
+        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 2, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
+
         currentStamina = maxStamina;
         isHitTime = 0f;
         tempRecoverTime = recoverTime;
@@ -265,7 +272,8 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    currentGun.reload();
+                    int invReduce = currentGun.reload(inventory.getAmmoCount(currentGun.getAmmoInventoryPosition()));
+                    inventory.reduceAmmo(currentGun.getAmmoInventoryPosition(), invReduce);
                     anim.SetBool("Reloading", false);
                     playerSounds.clip = completeReloadSound;
                     playerSounds.Play();
@@ -555,9 +563,9 @@ public class Player : MonoBehaviour
     {
        tempReloadTime = currentGun.getGunReloadTime();
        anim.SetBool("Reloading", true);
-        playerSounds.clip = reloadSound;
-        playerSounds.Play();
-        isReloading = true;
+       playerSounds.clip = reloadSound;
+       playerSounds.Play();
+       isReloading = true;
     }
 
     public int getMaxHP()
@@ -641,9 +649,26 @@ public class Player : MonoBehaviour
 
         if(collision.collider.gameObject.tag == "Door")
         {
-            Door d = collision.collider.gameObject.GetComponent<Door>();
-            gameObject.transform.position = new Vector3(d.xPlacement, d.yPlacement, 0);
-            isInside = d.indoors;
+            Door door = collision.collider.gameObject.GetComponent<Door>();
+            if (!door.isDoorUnlocked())
+            {
+                if (point.getPoints() >= door.pointsNeeded)
+                {
+                    door.unlockDoor();
+                }
+                else
+                {
+                    subMessageUI.text = "You need " + door.pointsNeeded + " points to unlock this door.";
+                    subMessageUI.enabled = true;
+                    moveSpeed = 0;
+                }
+            }
+            else
+            {
+                Door d = collision.collider.gameObject.GetComponent<Door>();
+                gameObject.transform.position = new Vector3(d.xPlacement, d.yPlacement, 0);
+                isInside = d.indoors;
+            }
         }
 
         
@@ -679,6 +704,14 @@ public class Player : MonoBehaviour
                 pickedUpObject = collider.gameObject;
                 setCarryableObject();
             }
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.tag == "Door")
+        {
+            subMessageUI.enabled = false;
         }
     }
 

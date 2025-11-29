@@ -10,6 +10,7 @@ public class GunTypes
     int meleeDamage;
     int maxGunAmmo;
     int currentAmmo;
+    int inventoryAmmoPos;
     int ammoPerShot;
     float gunReloadTime;
     bool gunAvailable;
@@ -17,7 +18,7 @@ public class GunTypes
     RuntimeAnimatorController animControl;
     bool singleHanded;
 
-    public GunTypes(string name, int upgrade, int damage, int ammo, int perShot, float reload, int melee, bool available, Transform interfaceObj, RuntimeAnimatorController ac, bool hand)
+    public GunTypes(string name, int upgrade, int damage, int ammo, int ammoInventoryPosition, int perShot, float reload, int melee, bool available, Transform interfaceObj, RuntimeAnimatorController ac, bool hand)
     {
         gunName = name;
         gunUpgrade = upgrade;
@@ -25,6 +26,7 @@ public class GunTypes
         meleeDamage = melee;
         maxGunAmmo = ammo;
         currentAmmo = maxGunAmmo;
+        inventoryAmmoPos = ammoInventoryPosition;
         ammoPerShot = perShot;
         gunReloadTime = reload;
         gunAvailable = available;
@@ -83,6 +85,16 @@ public class GunTypes
         return currentAmmo;
     }
 
+    public int getAmmoInventoryPosition()
+    {
+        return inventoryAmmoPos;
+    }
+
+    public void setAmmoInventoryPosition(int i)
+    {
+        inventoryAmmoPos = i;
+    }
+
     public void reduceAmmo()
     {
         if (currentAmmo > 0)
@@ -103,9 +115,20 @@ public class GunTypes
         }
     }
 
-    public void reload()
+    public int reload(int i)
     {
-        currentAmmo = maxGunAmmo;
+        int ammoDif = maxGunAmmo - currentAmmo;
+        if (i >= ammoDif)
+        {
+            currentAmmo += ammoDif;
+            return ammoDif;
+        }
+        else
+        {
+            currentAmmo += i;
+            return i;
+        }
+        
     }
 
     public float getGunReloadTime()
