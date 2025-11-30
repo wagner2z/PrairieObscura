@@ -51,4 +51,5 @@ public class Door : MonoBehaviour
         doorUnlocked = true;
         point.decreasePoints(pointsNeeded);
     }
+
 }
