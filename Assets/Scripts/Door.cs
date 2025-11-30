@@ -25,6 +25,7 @@ public class Door : MonoBehaviour
             doorUnlocked = true;
         }
         flashingColor = Color.white;
+
     }
 
     // Update is called once per frame

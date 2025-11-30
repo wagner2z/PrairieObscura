@@ -6,12 +6,14 @@ public class Inventory : MonoBehaviour
 {
     int[] ammo;
     int[] capacity;
+    bool keys;
     const int maxAmmoType = 3;
     // Start is called before the first frame update
     void Start()
     {
         ammo = new int[maxAmmoType];
         capacity = new int[maxAmmoType];
+        keys = false;
 
         ammo[0] = 18;
         ammo[1] = 4;
@@ -36,6 +38,16 @@ public class Inventory : MonoBehaviour
     public int getAmmoCapacity(int a)
     {
         return capacity[a];
+    }
+
+    public bool haveKeys()
+    { 
+        return keys;
+    }
+
+    public void setKeys(bool k)
+    {
+        keys = k;
     }
 
     public int getMaxAmmoType()

@@ -29,7 +29,7 @@ public class Collectible : MonoBehaviour
         flashingColor = Color.Lerp(Color.white, Color.yellow, Mathf.PingPong(Time.time, 1));
         GetComponent<SpriteRenderer>().color = flashingColor;
 
-        if(isActive)
+        if(isActive && (gameObject.tag != "CarryObject"))
         {
             if(tempTime > 0f)
             {

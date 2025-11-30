@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     WinHandler won;
     TextMeshProUGUI subMessageUI;
     Inventory inventory;
-    const float startX = 0f;
-    const float startY = -2.9f;
+    const float startX = 16.6f;
+    const float startY = -46.3f;
     const float offScreenX = -105f;
     const float offScreenY = 80f;
     GunTypes[] availableGuns;
@@ -59,7 +59,8 @@ public class Player : MonoBehaviour
     public RuntimeAnimatorController shotgun1;
     GameObject pickedUpObject;
 
-    AudioSource playerSounds;
+    public AudioSource playerMoveSounds;
+    public AudioSource playerActionSounds;
     public AudioClip shootSound;
     public AudioClip reloadSound;
     public AudioClip completeReloadSound;
@@ -92,7 +93,7 @@ public class Player : MonoBehaviour
         //Transform uiParent = canvas.Find("SelectedGun").transform;
         availableGuns = new GunTypes[maxWeaponPos + 1];
         availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 0, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
-        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 1, 0.67f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
+        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 3, 1, 1, 2f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
         availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 2, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
 
         currentStamina = maxStamina;
@@ -113,7 +114,8 @@ public class Player : MonoBehaviour
         anim.SetBool("Shooting", false);
         anim.SetBool("Reloading", false);
 
-        playerSounds = GetComponent<AudioSource>();
+        //playerMoveSounds; = GetComponent<AudioSource>();
+        //playerActionSounds; //= GetComponent<AudioSource>();
         //this.sRenderer.sprite = shootSprite;
 
     }
@@ -149,7 +151,7 @@ public class Player : MonoBehaviour
                 anim.runtimeAnimatorController = baseAnim;
             }
 
-            if (Input.GetKeyDown(control.pickUpOrDrop()) && isCarryingObject && tempWaitTime <= 0)
+            if (Input.GetKeyDown(control.pickUpOrDrop()) && isCarryingObject && !firingPosition && tempWaitTime <= 0)
             {
                 dropCarryableObject();
             }
@@ -307,45 +309,57 @@ public class Player : MonoBehaviour
 
             if(moveSpeed > 0)
             {
-                if(tileSprite.name == "desat grass 2_11")
+                if(tileSprite == null)
+                {
+                    if (moveSpeed == maxRunSpeed)
+                    {
+                        playerMoveSounds.clip = defaultRun;
+
+                    }
+                    else
+                    {
+                        playerMoveSounds.clip = defaultWalk;
+                    }
+                }
+                else if(tileSprite.name == "desat grass 2_11")
                 {
                     if(moveSpeed == maxRunSpeed)
                     {
-                        playerSounds.clip = dirtRun;
+                        playerMoveSounds.clip = dirtRun;
                         
                     }
                     else
                     {
-                        playerSounds.clip = dirtWalk;
+                        playerMoveSounds.clip = dirtWalk;
                     }
                 }
                 else if(tileSprite.name == "desat grass 2_34")
                 {
                     if (moveSpeed == maxRunSpeed)
                     {
-                        playerSounds.clip = grassRun;
+                        playerMoveSounds.clip = grassRun;
 
                     }
                     else
                     {
-                        playerSounds.clip = grassWalk;
+                        playerMoveSounds.clip = grassWalk;
                     }
                 }
                 else
                 {
                     if (moveSpeed == maxRunSpeed)
                     {
-                        playerSounds.clip = defaultRun;
+                        playerMoveSounds.clip = defaultRun;
 
                     }
                     else
                     {
-                        playerSounds.clip = defaultWalk;
+                        playerMoveSounds.clip = defaultWalk;
                     }
                 }
-                if (!playerSounds.isPlaying)
+                if (!playerMoveSounds.isPlaying)
                 {
-                    playerSounds.Play();
+                    playerMoveSounds.Play();
                 }
             }
             
@@ -378,8 +392,8 @@ public class Player : MonoBehaviour
                     int invReduce = currentGun.reload(inventory.getAmmoCount(currentGun.getAmmoInventoryPosition()));
                     inventory.reduceAmmo(currentGun.getAmmoInventoryPosition(), invReduce);
                     anim.SetBool("Reloading", false);
-                    playerSounds.clip = completeReloadSound;
-                    playerSounds.Play();
+                    playerActionSounds.clip = completeReloadSound;
+                    playerActionSounds.Play();
                     isReloading = false;
                 }
             }
@@ -577,8 +591,8 @@ public class Player : MonoBehaviour
                 if (weaponAvailable)
                 {
                     isEquipped = true;
-                    playerSounds.clip = equipSound;
-                    playerSounds.Play();
+                    playerActionSounds.clip = equipSound;
+                    playerActionSounds.Play();
                 }
                 else
                 {
@@ -623,8 +637,8 @@ public class Player : MonoBehaviour
                 if (weaponAvailable)
                 {
                     isEquipped = true;
-                    playerSounds.clip = equipSound;
-                    playerSounds.Play();
+                    playerActionSounds.clip = equipSound;
+                    playerActionSounds.Play();
                 }
                 else
                 {
@@ -651,8 +665,8 @@ public class Player : MonoBehaviour
         GameObject enemyTarget = shoot_cursor.GetComponent<ShootCursor>().getEnemyTarget();
         shoot_cursor.GetComponent<ShootCursor>().anim.Play("default", 0, 0);
         currentGun.reduceAmmo();
-        playerSounds.clip = shootSound;
-        playerSounds.Play();
+        playerActionSounds.clip = shootSound;
+        playerActionSounds.Play();
         if (enemyTarget != null)
         {
             float damageDealt = (currentGun.getGunDamage() * shoot_cursor.GetComponent<ShootCursor>().getLockOnTime());
@@ -666,8 +680,8 @@ public class Player : MonoBehaviour
     {
         tempReloadTime = currentGun.getGunReloadTime();
         anim.SetBool("Reloading", true);
-        playerSounds.clip = reloadSound;
-        playerSounds.Play();
+        playerActionSounds.clip = reloadSound;
+        playerActionSounds.Play();
         isReloading = true;
     }
 
@@ -773,6 +787,7 @@ public class Player : MonoBehaviour
 
         if (collision.collider.gameObject.tag == "Door")
         {
+            subMessageUI.text = "";
             Door door = collision.collider.gameObject.GetComponent<Door>();
             if (!door.isDoorUnlocked())
             {
@@ -782,7 +797,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    subMessageUI.text = "You need " + door.pointsNeeded + " points to unlock this door.";
+                    subMessageUI.text = "You need " + door.pointsNeeded + " points to unlock this door";
                     subMessageUI.enabled = true;
                     moveSpeed = 0;
                 }
@@ -791,8 +806,8 @@ public class Player : MonoBehaviour
             {
                 Door d = collision.collider.gameObject.GetComponent<Door>();
                 gameObject.transform.position = new Vector3(d.xPlacement, d.yPlacement, 0);
-                playerSounds.clip = doorOpen;
-                playerSounds.Play();
+                playerActionSounds.clip = doorOpen;
+                playerActionSounds.Play();
                 isInside = d.indoors;
             }
         }
@@ -823,7 +838,7 @@ public class Player : MonoBehaviour
     {
         if (collider.gameObject.tag == "CarryObject")
         {
-            if (Input.GetKeyDown(control.pickUpOrDrop()) && !isCarryingObject && tempWaitTime <= 0)
+            if (Input.GetKeyDown(control.pickUpOrDrop()) && !firingPosition && !isCarryingObject && tempWaitTime <= 0)
             {
                 collider.gameObject.GetComponent<Renderer>().enabled = false;
                 collider.gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
@@ -837,6 +852,7 @@ public class Player : MonoBehaviour
     {
         if (collision.collider.gameObject.tag == "Door")
         {
+            subMessageUI.text = "";
             subMessageUI.enabled = false;
         }
     }

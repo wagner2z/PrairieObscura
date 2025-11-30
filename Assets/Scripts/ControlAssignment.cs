@@ -52,7 +52,7 @@ public class ControlAssignment
 
     public KeyCode pickUpOrDrop()
     {
-        return KeyCode.F;
+        return KeyCode.Mouse1;
     }
 
     /*public KeyCode switchWeaponLeft()
