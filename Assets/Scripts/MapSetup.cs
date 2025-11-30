@@ -19,7 +19,7 @@ public class MapSetup : MonoBehaviour
     int enemyCount;
     int enemyTotal;
     int waveCount;
-    int waveStartCountdown = 5;
+    int waveStartCountdown = 35;
     bool settingUp;
     TextMeshProUGUI waveMsg;
 
@@ -32,10 +32,10 @@ public class MapSetup : MonoBehaviour
         waveMsg.text = "";
         enemies = w.getEnemyWaveList(waveCount);
         //enemies = GameObject.Find("Horde1");
-        xBoundLeft = -15f;
-        xBoundRight = 20f;
-        yBoundDown = -20f;
-        yBoundUp = 15f;
+        xBoundLeft = -42f;
+        xBoundRight = 42f;
+        yBoundDown = -47f;
+        yBoundUp = 35f;
         xPosition = 0;
         yPosition = 0;
         /*xBoundLeft = -45.5f;
@@ -99,7 +99,7 @@ public class MapSetup : MonoBehaviour
         int tempCount = waveStartCountdown;
         while (tempCount > 0)
         {
-            waveMsg.text = "New Wave in " + tempCount;
+            //waveMsg.text = "New Wave in " + tempCount;
             yield return new WaitForSeconds(1f);
             tempCount--;
         }

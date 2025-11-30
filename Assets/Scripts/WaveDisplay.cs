@@ -12,7 +12,7 @@ public class WaveDisplay : MonoBehaviour
     {
         map = GameObject.Find("SceneHandler").GetComponent<MapSetup>();
         waveDisplay = gameObject.GetComponent<TextMeshProUGUI>();
-        waveDisplay.text = "Wave X (xx/xx)";
+        waveDisplay.text = "Wave X";
     }
 
     // Update is called once per frame

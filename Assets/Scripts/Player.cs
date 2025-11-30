@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using TMPro;
 
 public class Player : MonoBehaviour
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
     const float beenHitTime = 0.5f;
     float tempReloadTime;
     bool isReloading;
+    bool firingPosition;
     bool isInside;
     bool isCarryingObject;
     const float pickUpWaitTime = 0.2f;
@@ -50,6 +52,7 @@ public class Player : MonoBehaviour
     Vector3 faceDirection;
     Vector3 moveDirection;
     public Animator anim;
+    Tilemap tilemap;
     public RuntimeAnimatorController baseAnim;
     public RuntimeAnimatorController handgun1;
     public RuntimeAnimatorController rifle1;
@@ -61,11 +64,19 @@ public class Player : MonoBehaviour
     public AudioClip reloadSound;
     public AudioClip completeReloadSound;
     public AudioClip equipSound;
+    public AudioClip doorOpen;
+    public AudioClip dirtWalk;
+    public AudioClip dirtRun;
+    public AudioClip grassWalk;
+    public AudioClip grassRun;
+    public AudioClip defaultWalk;
+    public AudioClip defaultRun;
 
     // Start is called before the first frame update
     void Start()
     {
         //Physics.IgnoreLayerCollision(0, 5);
+        tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         won = GameObject.Find("SceneHandler").GetComponent<WinHandler>();
         inventory = GameObject.Find("SceneHandler").GetComponent<Inventory>();
         point = GameObject.Find("Point Counter").GetComponent<PointCounter>();
@@ -79,7 +90,7 @@ public class Player : MonoBehaviour
         carryable = transform.GetChild(1).gameObject;
         carryable.GetComponent<Renderer>().enabled = false;
         //Transform uiParent = canvas.Find("SelectedGun").transform;
-        availableGuns = new GunTypes [maxWeaponPos + 1];
+        availableGuns = new GunTypes[maxWeaponPos + 1];
         availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 0, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
         availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 1, 1, 1, 0.67f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
         availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 2, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
@@ -120,9 +131,11 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, angle);
             anim.SetBool("Walking", false);
             anim.SetBool("Shooting", false);
+            Vector3Int gridPosition = tilemap.WorldToCell(transform.position);
+            Sprite tileSprite = tilemap.GetSprite(gridPosition);
             moveSpeed = 0;
 
-            if(tempWaitTime > 0)
+            if (tempWaitTime > 0)
             {
                 tempWaitTime -= Time.deltaTime;
             }
@@ -136,7 +149,7 @@ public class Player : MonoBehaviour
                 anim.runtimeAnimatorController = baseAnim;
             }
 
-            if(Input.GetKeyDown(control.pickUpOrDrop()) && isCarryingObject && tempWaitTime <= 0)
+            if (Input.GetKeyDown(control.pickUpOrDrop()) && isCarryingObject && tempWaitTime <= 0)
             {
                 dropCarryableObject();
             }
@@ -145,6 +158,7 @@ public class Player : MonoBehaviour
             {
                 Cursor.visible = false;
                 shoot_cursor.GetComponent<Renderer>().enabled = true;
+                firingPosition = true;
                 shoot_cursor.transform.position = mouseWorldPos;
                 anim.SetBool("Shooting", true);
                 //sRenderer.sprite = shootSprite;
@@ -156,107 +170,196 @@ public class Player : MonoBehaviour
 
             else
             {
+                firingPosition = false;
                 anim.SetBool("Shooting", false);
                 Cursor.visible = true;
                 shoot_cursor.GetComponent<Renderer>().enabled = false;
-                if (!isReloading)
+            }
+
+            
+            //if (!isReloading)
+            //{
+            if (isEquipped && !isCarryingObject && Input.GetKeyDown(control.reloadGun()))
+            {
+                reloadGun();
+            }
+            if (Input.GetKey(control.characterMoveBack()))
+            {
+                // Calculate the backward direction based on the character's current forward vector
+                // Multiplying by -1 reverses the direction
+                if (Input.GetKey(control.characterDash()) && currentStamina > 0
+                    && !isReloading && !firingPosition)
                 {
-                    if (isEquipped && !isCarryingObject && Input.GetKeyDown(control.reloadGun()))
+                    moveSpeed = maxRunSpeed;
+                    useStamina();
+                    anim.SetBool("Walking", true);
+                }
+                else
+                {
+                    if (isReloading || firingPosition)
                     {
-                        reloadGun();
+                        moveSpeed = maxWalkSpeed / 2f;
                     }
-                    if (Input.GetKey(control.characterMoveBack()))
+                    else
                     {
-                        // Calculate the backward direction based on the character's current forward vector
-                        // Multiplying by -1 reverses the direction
-                        if (Input.GetKey(control.characterDash()) && currentStamina > 0)
-                        {
-                            moveSpeed = maxRunSpeed;
-                            useStamina();
-                        }
-                        else
-                        {
-                            moveSpeed = maxWalkSpeed;
-                        }
-                        moveDirection = -transform.up;
+                        moveSpeed = maxWalkSpeed;
                         anim.SetBool("Walking", true);
-
-                        // Move the character in the backward direction
-                        // Time.deltaTime ensures frame-rate independent movement
-                        //transform.Translate(backwardDirection * moveSpeed * Time.deltaTime, Space.World);
-                    }
-                    if (Input.GetKey(control.characterMoveForward()))
-                    {
-                        // Calculate the backward direction based on the character's current forward vector
-                        // Multiplying by -1 reverses the direction
-                        if (Input.GetKey(control.characterDash()) && currentStamina > 0)
-                        {
-                            moveSpeed = maxRunSpeed;
-                            useStamina();
-                        }
-                        else
-                        {
-                            moveSpeed = maxWalkSpeed;
-                        }
-                        moveDirection = transform.up;
-                        anim.SetBool("Walking", true);
-
-                        // Move the character in the backward direction
-                        // Time.deltaTime ensures frame-rate independent movement
-                        //transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
-                    }
-                    if (Input.GetKey(control.characterMoveLeft()))
-                    {
-                        // Calculate the backward direction based on the character's current forward vector
-                        // Multiplying by -1 reverses the direction
-                        if (Input.GetKey(control.characterDash()) && currentStamina > 0)
-                        {
-                            moveSpeed = maxRunSpeed;
-                            useStamina();
-                        }
-                        else
-                        {
-                            moveSpeed = maxWalkSpeed;
-                        }
-                        moveDirection = -transform.right;
-                        anim.SetBool("Walking", true);
-
-                        // Move the character in the backward direction
-                        // Time.deltaTime ensures frame-rate independent movement
-                        //transform.Translate(leftDirection * moveSpeed * Time.deltaTime, Space.World);
-                    }
-                    if (Input.GetKey(control.characterMoveRight()))
-                    {
-                        // Calculate the backward direction based on the character's current forward vector
-                        // Multiplying by -1 reverses the direction
-                        if (Input.GetKey(control.characterDash()) && currentStamina > 0)
-                        {
-                            moveSpeed = maxRunSpeed;
-                            useStamina();
-                        }
-                        else
-                        {
-                            moveSpeed = maxWalkSpeed;
-                        }
-                        moveDirection = transform.right;
-                        anim.SetBool("Walking", true);
-
-                        // Move the character in the backward direction
-                        // Time.deltaTime ensures frame-rate independent movement
-                        //transform.Translate(rightDirection * moveSpeed * Time.deltaTime, Space.World);
-                    }
-                    float scroll = Input.GetAxis("Mouse ScrollWheel");
-                    if (scroll < 0f)
-                    {
-                        swapWeapon('l');
-                    }
-                    if (scroll > 0f)
-                    {
-                        swapWeapon('r');
                     }
                 }
+                moveDirection = -transform.up;
+                
 
+                // Move the character in the backward direction
+                // Time.deltaTime ensures frame-rate independent movement
+                //transform.Translate(backwardDirection * moveSpeed * Time.deltaTime, Space.World);
             }
+            if (Input.GetKey(control.characterMoveForward()))
+            {
+                // Calculate the backward direction based on the character's current forward vector
+                // Multiplying by -1 reverses the direction
+                if (Input.GetKey(control.characterDash()) && currentStamina > 0
+                    && !isReloading && !firingPosition)
+                {
+                    moveSpeed = maxRunSpeed;
+                    useStamina();
+                    anim.SetBool("Walking", true);
+                }
+                else
+                {
+                    if (isReloading || firingPosition)
+                    {
+                        moveSpeed = maxWalkSpeed / 2f;
+                    }
+                    else
+                    {
+                        moveSpeed = maxWalkSpeed;
+                        anim.SetBool("Walking", true);
+                    }
+                }
+                moveDirection = transform.up;
+                
+
+                // Move the character in the backward direction
+                // Time.deltaTime ensures frame-rate independent movement
+                //transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
+            }
+            if (Input.GetKey(control.characterMoveLeft()))
+            {
+                // Calculate the backward direction based on the character's current forward vector
+                // Multiplying by -1 reverses the direction
+                if (Input.GetKey(control.characterDash()) && currentStamina > 0
+                    && !isReloading && !firingPosition)
+                {
+                    moveSpeed = maxRunSpeed;
+                    useStamina();
+                    anim.SetBool("Walking", true);
+                }
+                else
+                {
+                    if (isReloading || firingPosition)
+                    {
+                        moveSpeed = maxWalkSpeed / 2f;
+                    }
+                    else
+                    {
+                        moveSpeed = maxWalkSpeed;
+                        anim.SetBool("Walking", true);
+                    }
+                }
+                moveDirection = -transform.right;
+                
+
+                // Move the character in the backward direction
+                // Time.deltaTime ensures frame-rate independent movement
+                //transform.Translate(leftDirection * moveSpeed * Time.deltaTime, Space.World);
+            }
+            if (Input.GetKey(control.characterMoveRight()))
+            {
+                // Calculate the backward direction based on the character's current forward vector
+                // Multiplying by -1 reverses the direction
+                if (Input.GetKey(control.characterDash()) && currentStamina > 0
+                    && !isReloading && !firingPosition)
+                {
+                    moveSpeed = maxRunSpeed;
+                    anim.SetBool("Walking", true);
+                    useStamina();
+                }
+                else
+                {
+                    if (isReloading || firingPosition)
+                    {
+                        moveSpeed = maxWalkSpeed / 2f;
+                    }
+                    else
+                    {
+                        moveSpeed = maxWalkSpeed;
+                        anim.SetBool("Walking", true);
+                    }
+
+                }
+                moveDirection = transform.right;
+                
+
+                // Move the character in the backward direction
+                // Time.deltaTime ensures frame-rate independent movement
+                //transform.Translate(rightDirection * moveSpeed * Time.deltaTime, Space.World);
+            }
+
+            if(moveSpeed > 0)
+            {
+                if(tileSprite.name == "desat grass 2_11")
+                {
+                    if(moveSpeed == maxRunSpeed)
+                    {
+                        playerSounds.clip = dirtRun;
+                        
+                    }
+                    else
+                    {
+                        playerSounds.clip = dirtWalk;
+                    }
+                }
+                else if(tileSprite.name == "desat grass 2_34")
+                {
+                    if (moveSpeed == maxRunSpeed)
+                    {
+                        playerSounds.clip = grassRun;
+
+                    }
+                    else
+                    {
+                        playerSounds.clip = grassWalk;
+                    }
+                }
+                else
+                {
+                    if (moveSpeed == maxRunSpeed)
+                    {
+                        playerSounds.clip = defaultRun;
+
+                    }
+                    else
+                    {
+                        playerSounds.clip = defaultWalk;
+                    }
+                }
+                if (!playerSounds.isPlaying)
+                {
+                    playerSounds.Play();
+                }
+            }
+            
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (scroll < 0f)
+            {
+                swapWeapon('l');
+            }
+            if (scroll > 0f)
+            {
+                swapWeapon('r');
+            }
+            //}
+
 
             if (!Input.GetKey(control.characterDash()))
             {
@@ -386,15 +489,15 @@ public class Player : MonoBehaviour
         if (currentStamina > 0)
         {
 
-                if (tempDiffTime > 0)
-                {
-                    tempDiffTime -= Time.deltaTime;
-                }
-                else
-                {
-                    removeStamina(1);
-                    tempDiffTime = staminaDiffTime;
-                }
+            if (tempDiffTime > 0)
+            {
+                tempDiffTime -= Time.deltaTime;
+            }
+            else
+            {
+                removeStamina(1);
+                tempDiffTime = staminaDiffTime;
+            }
         }
         else
         {
@@ -434,16 +537,16 @@ public class Player : MonoBehaviour
     public void swapWeapon(char dir)
     {
         bool weaponAvailable = false;
-        if(dir == 'l')
+        if (dir == 'l')
         {
-            if(currentWeaponPos == 0)
+            if (currentWeaponPos == 0)
             {
                 currentWeaponPos = -1;
                 isEquipped = false;
             }
             else
             {
-                if(currentWeaponPos == -1)
+                if (currentWeaponPos == -1)
                 {
                     currentWeaponPos = maxWeaponPos + 1;
                 }
@@ -561,11 +664,11 @@ public class Player : MonoBehaviour
 
     public void reloadGun()
     {
-       tempReloadTime = currentGun.getGunReloadTime();
-       anim.SetBool("Reloading", true);
-       playerSounds.clip = reloadSound;
-       playerSounds.Play();
-       isReloading = true;
+        tempReloadTime = currentGun.getGunReloadTime();
+        anim.SetBool("Reloading", true);
+        playerSounds.clip = reloadSound;
+        playerSounds.Play();
+        isReloading = true;
     }
 
     public int getMaxHP()
@@ -647,7 +750,7 @@ public class Player : MonoBehaviour
             moveSpeed = 0;
         }
 
-        if(collision.collider.gameObject.tag == "Door")
+        if (collision.collider.gameObject.tag == "Door")
         {
             Door door = collision.collider.gameObject.GetComponent<Door>();
             if (!door.isDoorUnlocked())
@@ -667,11 +770,13 @@ public class Player : MonoBehaviour
             {
                 Door d = collision.collider.gameObject.GetComponent<Door>();
                 gameObject.transform.position = new Vector3(d.xPlacement, d.yPlacement, 0);
+                playerSounds.clip = doorOpen;
+                playerSounds.Play();
                 isInside = d.indoors;
             }
         }
 
-        
+
 
     }
 
@@ -688,7 +793,7 @@ public class Player : MonoBehaviour
             collision.collider.gameObject.GetComponent<Enemy>().setPushed();
             //collision.collider.gameObject.GetComponent<Enemy>().takeDamage(1);
             //Debug.Log("Dot is " + Vector3.Dot(faceDirection, Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position)));
-            
+
         }
 
     }
