@@ -50,7 +50,7 @@ public class GunTypes
         return gunUpgrade;
     }
 
-    public void setGunUpograde(int u)
+    public void setGunUpgrade(int u)
     {
         gunUpgrade = u;
     }

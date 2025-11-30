@@ -706,6 +706,27 @@ public class Player : MonoBehaviour
         return pickedUpObject;
     }
 
+    public GunTypes[] getAllGuns()
+    {
+        return availableGuns;
+    }
+
+    public List<GunTypes> getUnlockedGuns()
+    {
+        List<GunTypes> unlockedGuns = new List<GunTypes>();
+        //int temp = 0;
+        for (int i = 0; i < maxWeaponPos + 1; i++)
+        {
+            if (availableGuns[i].getGunAvailable())
+            {
+                unlockedGuns.Add(availableGuns[i]);
+                //temp++;
+            }
+        }
+
+        return unlockedGuns;
+    }
+
     public void setCarryableObject()
     {
         carryable.GetComponent<Renderer>().enabled = true;

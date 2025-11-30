@@ -5,15 +5,21 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     int[] ammo;
-    const int maxAmmoType = 5;
+    int[] capacity;
+    const int maxAmmoType = 3;
     // Start is called before the first frame update
     void Start()
     {
         ammo = new int[maxAmmoType];
-        for(int i = 0; i < maxAmmoType; i++)
-        {
-            ammo[i] = 6;
-        }
+        capacity = new int[maxAmmoType];
+
+        ammo[0] = 18;
+        ammo[1] = 4;
+        ammo[2] = 4;
+
+        capacity[0] = 60;
+        capacity[1] = 40;
+        capacity[2] = 40;
     }
 
     // Update is called once per frame
@@ -27,9 +33,31 @@ public class Inventory : MonoBehaviour
         return ammo[a];
     }
 
+    public int getAmmoCapacity(int a)
+    {
+        return capacity[a];
+    }
+
+    public int getMaxAmmoType()
+    {
+        return maxAmmoType;
+    }
+
+    public void setAmmoCapacity(int a, int c)
+    {
+        capacity[a] = c;
+    }
+
     public void addAmmo(int a, int addValue)
     {
-        ammo[a] += addValue;
+        if (ammo[a] + addValue >= capacity[a])
+        {
+            ammo[a] = capacity[a];
+        }
+        else
+        {
+            ammo[a] += addValue;
+        }
     }
 
     public void reduceAmmo(int a, int subValue)

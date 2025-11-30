@@ -7,12 +7,14 @@ public class Enemy : MonoBehaviour
 {
     ControlAssignment control = new ControlAssignment();
     PointCounter point;
+    CollectibleDrop drop;
     Player p;
     CameraMove c;
     MapSetup map;
     public Rigidbody2D rigidBody;
     public AudioSource enemyNoise;
     const float maxMoveSpeed = 1f;
+    const int dropChance = 3;
     float moveSpeed;
     int maxHitPoints;
     int currentHP;
@@ -49,6 +51,7 @@ public class Enemy : MonoBehaviour
         p = GameObject.Find("Player").GetComponent<Player>();
         c = GameObject.Find("Main Camera").GetComponent<CameraMove>();
         map = GameObject.Find("SceneHandler").GetComponent<MapSetup>();
+        drop = GameObject.Find("Collectibles").GetComponent<CollectibleDrop>();
         point = GameObject.Find("Point Counter").GetComponent<PointCounter>();
         enemyName = gameObject.name;
         isHitTime = 0;
@@ -146,15 +149,22 @@ public class Enemy : MonoBehaviour
 
         if (isDead())
         {
-            gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
-            rigidBody.constraints = RigidbodyConstraints2D.FreezePosition;
-            enemyNoise.Stop();
             if (!markedDead)
             {
+                int tempR = Random.Range(0, dropChance);
+                if (tempR == 0)
+                {
+                    drop.dropRandomCollectible(transform.position);
+                }
+                gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
+                rigidBody.constraints = RigidbodyConstraints2D.FreezePosition;
+                enemyNoise.Stop();
                 map.removeEnemy();
                 point.increasePoints(pointsWorth);
                 markDead();
             }
+
+            
             // move offscreen and not move
             //gameObject.SetActive(false);
         }
