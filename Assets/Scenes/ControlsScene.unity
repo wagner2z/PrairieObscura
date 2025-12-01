@@ -182,8 +182,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Controls
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ab4b531e9c486774f8e74aedc4b134b5, type: 2}
+  m_sharedMaterial: {fileID: 1511453938393650302, guid: ab4b531e9c486774f8e74aedc4b134b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -560,8 +560,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press Enter to Start
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ab4b531e9c486774f8e74aedc4b134b5, type: 2}
+  m_sharedMaterial: {fileID: 1511453938393650302, guid: ab4b531e9c486774f8e74aedc4b134b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -824,7 +824,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 152, y: 290}
+  m_AnchoredPosition: {x: 119, y: 338}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2122809062
@@ -851,22 +851,22 @@ MonoBehaviour:
 
     Move - WASD
 
-    Dash - Hold Q
+    Dash - Hold L Shift
+
+    Aim
+    Position - Hold Right Mouse Button
+
+    Interact/Shoot - Left Mouse Button
 
     Switch
-    Weapon - Left/Right Arrow
+    Weapon - Up/Down Mouse Wheel
 
-    Push - Space
-
-    Aim Position - Hold F
-
-    Shoot
-    - Left Mouse Button
+    Push Enemy - Space
 
     Reload - R'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ab4b531e9c486774f8e74aedc4b134b5, type: 2}
+  m_sharedMaterial: {fileID: 1511453938393650302, guid: ab4b531e9c486774f8e74aedc4b134b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -926,7 +926,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -482.32886, y: 0, z: -307.28857, w: -561.9917}
+  m_margin: {x: -625.3523, y: 0, z: -476.87347, w: -561.9917}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

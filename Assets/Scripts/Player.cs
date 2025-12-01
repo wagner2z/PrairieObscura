@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     bool firingPosition;
     bool isInside;
     bool isCarryingObject;
+    bool foundCarryObject;
     const float pickUpWaitTime = 0.2f;
     float tempWaitTime;
     //int testGunDamage = 5;
@@ -57,7 +58,7 @@ public class Player : MonoBehaviour
     public RuntimeAnimatorController handgun1;
     public RuntimeAnimatorController rifle1;
     public RuntimeAnimatorController shotgun1;
-    GameObject pickedUpObject;
+    GameObject foundObject;
 
     public AudioSource playerMoveSounds;
     public AudioSource playerActionSounds;
@@ -105,6 +106,7 @@ public class Player : MonoBehaviour
         isReloading = false;
         isInside = false;
         isCarryingObject = false;
+        foundCarryObject = false;
         //this.sRenderer = gameObject.GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = new Vector3(0, 0, 0);
@@ -149,6 +151,15 @@ public class Player : MonoBehaviour
             else
             {
                 anim.runtimeAnimatorController = baseAnim;
+            }
+
+            if (Input.GetKeyDown(control.pickUpOrDrop()) && !firingPosition && !isCarryingObject && tempWaitTime <= 0
+                && foundCarryObject)
+            {
+                foundObject.GetComponent<Renderer>().enabled = false;
+                foundObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
+                
+                setCarryableObject();
             }
 
             if (Input.GetKeyDown(control.pickUpOrDrop()) && isCarryingObject && !firingPosition && tempWaitTime <= 0)
@@ -717,7 +728,7 @@ public class Player : MonoBehaviour
 
     public GameObject carriedObject()
     {
-        return pickedUpObject;
+        return foundObject;
     }
 
     public GunTypes[] getAllGuns()
@@ -746,7 +757,7 @@ public class Player : MonoBehaviour
         carryable.GetComponent<Renderer>().enabled = true;
         currentWeaponPos = -1;
         isEquipped = false;
-        carryable.GetComponent<SpriteRenderer>().sprite = pickedUpObject.GetComponent<SpriteRenderer>().sprite;
+        carryable.GetComponent<SpriteRenderer>().sprite = foundObject.GetComponent<SpriteRenderer>().sprite;
         isCarryingObject = true;
         tempWaitTime = pickUpWaitTime;
     }
@@ -759,8 +770,8 @@ public class Player : MonoBehaviour
 
     public void dropCarryableObject()
     {
-        pickedUpObject.GetComponent<Renderer>().enabled = true;
-        pickedUpObject.transform.position = transform.position;
+        foundObject.GetComponent<Renderer>().enabled = true;
+        foundObject.transform.position = transform.position;
         carryable.GetComponent<Renderer>().enabled = false;
         isCarryingObject = false;
         tempWaitTime = pickUpWaitTime;
@@ -838,13 +849,16 @@ public class Player : MonoBehaviour
     {
         if (collider.gameObject.tag == "CarryObject")
         {
-            if (Input.GetKeyDown(control.pickUpOrDrop()) && !firingPosition && !isCarryingObject && tempWaitTime <= 0)
-            {
-                collider.gameObject.GetComponent<Renderer>().enabled = false;
-                collider.gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
-                pickedUpObject = collider.gameObject;
-                setCarryableObject();
-            }
+            foundCarryObject = true;
+            foundObject = collider.gameObject;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "CarryObject")
+        {
+            foundCarryObject = false;
         }
     }
 

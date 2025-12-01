@@ -37,12 +37,12 @@ public class ControlAssignment
 
     public KeyCode playerShoot()
     {
-        return KeyCode.Mouse1;
+        return KeyCode.Mouse0;
     }
 
     public KeyCode playerFirePosition()
     {
-        return KeyCode.Mouse0;
+        return KeyCode.Mouse1;
     }
 
     public KeyCode reloadGun()
@@ -52,7 +52,7 @@ public class ControlAssignment
 
     public KeyCode pickUpOrDrop()
     {
-        return KeyCode.Mouse1;
+        return KeyCode.Mouse0;
     }
 
     /*public KeyCode switchWeaponLeft()
