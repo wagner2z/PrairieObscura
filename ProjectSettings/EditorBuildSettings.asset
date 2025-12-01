@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ControlsScene.unity
     guid: 3bc598378a3140041a122f6beb128624
-  - enabled: 0
-    path: Assets/Scenes/MainScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/FarmyardScene.unity
     guid: 783b93725b706504e9596dd6c50583eb
+  - enabled: 1
+    path: Assets/Scenes/CreditsScene.unity
+    guid: cd235847c4bbc6e49a29b9d184d338cf
   m_configObjects: {}

@@ -57,7 +57,7 @@ public class TankFuel : MonoBehaviour
                 {
                     if (p.carriedObject().name == part)
                     {
-                        if (part == "gas" && !p.carriedObject().GetComponent<Gas>().isFull())
+                        if (part == "gas" && p.carriedObject().GetComponent<Gas>().isFull())
                         {
 
                         }
