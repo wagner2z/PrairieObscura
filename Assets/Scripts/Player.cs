@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
         availableGuns = new GunTypes[maxWeaponPos + 1];
         availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 0, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
         availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 3, 1, 1, 2f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
-        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 2, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
+        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 1, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
 
         currentStamina = maxStamina;
         isHitTime = 0f;

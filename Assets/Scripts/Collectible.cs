@@ -56,7 +56,7 @@ public class Collectible : MonoBehaviour
                 }
                 else if(type == "ammo")
                 {
-                    inventory.addAmmo(ammoType, Random.Range(1, 6));
+                    inventory.addAmmo(ammoType, Random.Range(5, 10));
                 }
                 gameObject.transform.position = new Vector3(offScreenX, offScreenY, 0);
                 isActive = false;

@@ -32,10 +32,10 @@ public class MapSetup : MonoBehaviour
         waveMsg.text = "";
         enemies = w.getEnemyWaveList(waveCount);
         //enemies = GameObject.Find("Horde1");
-        xBoundLeft = -42f;
-        xBoundRight = 42f;
-        yBoundDown = -45f;
-        yBoundUp = 32f;
+        xBoundLeft = -35f;
+        xBoundRight = 35f;
+        yBoundDown = 30f;
+        yBoundUp = 15f;
         xPosition = 0;
         yPosition = 0;
         /*xBoundLeft = -45.5f;

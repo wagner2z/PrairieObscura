@@ -28,7 +28,7 @@ public class WinHandler : MonoBehaviour
         if (c.checkWon() && !hasAlreadyWon)
         {
             hasAlreadyWon = true;
-            messageUI.text = "Congrats, You Escaped!\nPress Enter to Restart";
+            messageUI.text = "Congrats, You Escaped!\nPress Enter to Title";
             messageUI.color = Color.white;
             messageUI.enabled = true;
         }
@@ -36,7 +36,7 @@ public class WinHandler : MonoBehaviour
         {
             hasAlreadyWon = false;
             messageUI.enabled = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene("CreditsScene");
         }
     }
 

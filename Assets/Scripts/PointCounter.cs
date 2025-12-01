@@ -124,7 +124,7 @@ public class PointCounter : MonoBehaviour
         }
         else
         {
-            points -= p;
+            points = points - p;
         }
        
     }

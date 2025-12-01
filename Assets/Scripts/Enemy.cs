@@ -119,6 +119,14 @@ public class Enemy : MonoBehaviour
             {
                 enemyNoise.Play();
             }
+            
+            // Move the character in the backward direction
+            // Time.deltaTime ensures frame-rate independent movement
+            //transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
+        }
+
+        if (!isDead() && !p.hasWon())
+        {
             if (pushed == true && tempTime > 0)
             {
                 moveSpeed = pushMoveSpeed;
@@ -139,9 +147,6 @@ public class Enemy : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
             moveDirection = transform.up;
-            // Move the character in the backward direction
-            // Time.deltaTime ensures frame-rate independent movement
-            //transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
         }
 
         GetComponent<Renderer>().material.color = hitTime();
