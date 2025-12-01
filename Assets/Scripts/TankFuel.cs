@@ -42,6 +42,7 @@ public class TankFuel : MonoBehaviour
             g.GetComponent<Renderer>().enabled = true;
             GetComponent<SpriteRenderer>().color = Color.white;
             tankDropped = true;
+            g.GetComponent<Gas>().setFull();
         }
     }
 
@@ -56,10 +57,16 @@ public class TankFuel : MonoBehaviour
                 {
                     if (p.carriedObject().name == part)
                     {
-                        subMessageUI.text = "Brought the " + p.carriedObject().name;
+                        if (part == "gas" && !p.carriedObject().GetComponent<Gas>().isFull())
+                        {
 
-                        p.removeCarryableObject();
-                        broughtCount++;
+                        }
+                        else
+                        {
+                            subMessageUI.text = "Brought the " + p.carriedObject().name;
+                            p.removeCarryableObject();
+                            broughtCount++;
+                        }
 
                     }
                 }

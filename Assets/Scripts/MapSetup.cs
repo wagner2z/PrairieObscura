@@ -34,8 +34,8 @@ public class MapSetup : MonoBehaviour
         //enemies = GameObject.Find("Horde1");
         xBoundLeft = -42f;
         xBoundRight = 42f;
-        yBoundDown = -47f;
-        yBoundUp = 35f;
+        yBoundDown = -45f;
+        yBoundUp = 32f;
         xPosition = 0;
         yPosition = 0;
         /*xBoundLeft = -45.5f;
