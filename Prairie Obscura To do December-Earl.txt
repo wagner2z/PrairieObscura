@@ -4,7 +4,7 @@ Prairie Obscura To do December-Early January
 
 2. Enemy Spawning
 
-3. Player not being center
+3. Player not being center (0.48, 0.33)
 
 4. Sensitivity slider (Mouse)
 
