@@ -12,6 +12,7 @@ public class Notepad : MonoBehaviour
     Color flashingColor;
     GameObject notepadUI;
     bool isNoteShowing;
+    bool selectedNote;
     bool noteCollided;
     const float pickUpWaitTime = 0.2f;
     float tempWaitTime;
@@ -26,6 +27,7 @@ public class Notepad : MonoBehaviour
         //inventory = GameObject.Find("SceneHandler").GetComponent<Inventory>();
         flashingColor = Color.yellow;
         noteCollided = false;
+        selectedNote = false;
         tempWaitTime = 0f;
     }
 
@@ -40,17 +42,17 @@ public class Notepad : MonoBehaviour
             tempWaitTime -= Time.deltaTime;
         }
 
-        if (noteCollided && Input.GetKeyDown(control.pickUpOrDrop()) && !isNoteShowing && tempWaitTime <= 0)
+        if (noteCollided && selectedNote && Input.GetKeyDown(control.pickUpOrDrop()) && !isNoteShowing && tempWaitTime <= 0f)
         {
-             Debug.Log("Showing notepad");
-             tempWaitTime = pickUpWaitTime;
-             isNoteShowing = true;
-             notepadUI.GetComponent<Image>().enabled = true;
-             notepadUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = noteText;
-             notepadUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = true;
-                
+            Debug.Log("Showing notepad");
+            tempWaitTime = pickUpWaitTime;
+            isNoteShowing = true;
+            notepadUI.GetComponent<Image>().enabled = true;
+            notepadUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = noteText;
+            notepadUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = true;
+
         }
-        else if (noteCollided && Input.GetKeyDown(control.pickUpOrDrop()) && isNoteShowing && tempWaitTime <= 0)
+        else if (noteCollided && selectedNote && Input.GetKeyDown(control.pickUpOrDrop()) && isNoteShowing && tempWaitTime <= 0f)
         {
             Debug.Log("Not showing notepad");
             tempWaitTime = pickUpWaitTime;
@@ -58,12 +60,13 @@ public class Notepad : MonoBehaviour
             notepadUI.GetComponent<Image>().enabled = false;
             notepadUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = false;
         }
-        else if (!noteCollided)
+        else if (!noteCollided && selectedNote)
         {
             tempWaitTime = pickUpWaitTime;
             isNoteShowing = false;
             notepadUI.GetComponent<Image>().enabled = false;
             notepadUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = false;
+            selectedNote = false;
         }
     }
 
@@ -73,6 +76,7 @@ public class Notepad : MonoBehaviour
         {
             Debug.Log("Collided with notepad");
             noteCollided = true;
+            selectedNote = true;
             
         }
     }
@@ -83,6 +87,7 @@ public class Notepad : MonoBehaviour
         {
             Debug.Log("Collided with notepad");
             noteCollided = true;
+            selectedNote = true;
             
         }
     }
