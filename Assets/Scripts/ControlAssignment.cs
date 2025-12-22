@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public static class ControlAssignment
 {
     static bool moveByWorldAxis = false;
+    static int mouseSensitivity = 100;
 
     public static KeyCode characterMoveLeft()
     {
@@ -95,5 +96,15 @@ public static class ControlAssignment
     public static void setMoveByWorldAxis(bool m)
     {
         moveByWorldAxis = m;
+    }
+
+    public static int getMouseSensitivity()
+    {
+        return mouseSensitivity;
+    }
+
+    public static void setMouseSensitivity(int i)
+    {
+        mouseSensitivity = i;
     }
 }

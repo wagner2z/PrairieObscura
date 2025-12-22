@@ -69,12 +69,21 @@ public class Settings_Scene : MonoBehaviour
             {
                 ControlAssignment.setMoveByWorldAxis(!ControlAssignment.getMoveByWorldAxis());
             }
+
+            if(optionPosition == 1)
+            {
+                //setSliderPosition();
+            }
         }
         if (Input.GetKeyDown(ControlAssignment.switchOptionRight()))
         {
             if (optionPosition == 0)
             {
                 ControlAssignment.setMoveByWorldAxis(!ControlAssignment.getMoveByWorldAxis());
+            }
+            if (optionPosition == 1)
+            {
+                //setSliderPosition();
             }
         }
         if (!startUp)
@@ -99,6 +108,16 @@ public class Settings_Scene : MonoBehaviour
                 SceneManager.LoadScene("TitleScene");
             }
         }
+    }
+
+    Vector3 setSliderPosition(float val, GameObject bar)
+    {
+        float minX = bar.transform.GetChild(0).transform.position.x;
+        float maxX = bar.transform.GetChild(1).transform.position.x;
+
+        float newX = minX + ((maxX - minX) * val);
+
+        return new Vector3(newX, bar.transform.position.y, bar.transform.position.z);
     }
 }
 
