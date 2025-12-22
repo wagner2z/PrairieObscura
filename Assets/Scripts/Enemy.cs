@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    ControlAssignment control = new ControlAssignment();
     PointCounter point;
     CollectibleDrop drop;
     Player p;

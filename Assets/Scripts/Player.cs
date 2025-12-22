@@ -6,7 +6,6 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-    ControlAssignment control = new ControlAssignment();
     PointCounter point;
     WinHandler won;
     TextMeshProUGUI subMessageUI;
@@ -125,6 +124,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        moveDirection = new Vector3(0, 0, 0);
         if (!isDead() && !hasWon())
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -153,7 +153,7 @@ public class Player : MonoBehaviour
                 anim.runtimeAnimatorController = baseAnim;
             }
 
-            if (Input.GetKeyDown(control.pickUpOrDrop()) && !firingPosition && !isCarryingObject && tempWaitTime <= 0
+            if (Input.GetKeyDown(ControlAssignment.pickUpOrDrop()) && !firingPosition && !isCarryingObject && tempWaitTime <= 0
                 && foundCarryObject)
             {
                 foundObject.GetComponent<Renderer>().enabled = false;
@@ -162,12 +162,12 @@ public class Player : MonoBehaviour
                 setCarryableObject();
             }
 
-            if (Input.GetKeyDown(control.pickUpOrDrop()) && isCarryingObject && !firingPosition && tempWaitTime <= 0)
+            if (Input.GetKeyDown(ControlAssignment.pickUpOrDrop()) && isCarryingObject && !firingPosition && tempWaitTime <= 0)
             {
                 dropCarryableObject();
             }
 
-            if (Input.GetKey(control.playerFirePosition()) && isEquipped && !isReloading)
+            if (Input.GetKey(ControlAssignment.playerFirePosition()) && isEquipped && !isReloading)
             {
                 Cursor.visible = false;
                 shoot_cursor.GetComponent<Renderer>().enabled = true;
@@ -175,7 +175,7 @@ public class Player : MonoBehaviour
                 shoot_cursor.transform.position = mouseWorldPos;
                 anim.SetBool("Shooting", true);
                 //sRenderer.sprite = shootSprite;
-                if (Input.GetKeyDown(control.playerShoot()) && currentGun.getCurrentGunAmmo() > 0)
+                if (Input.GetKeyDown(ControlAssignment.playerShoot()) && currentGun.getCurrentGunAmmo() > 0)
                 {
                     firedShot();
                 }
@@ -192,15 +192,54 @@ public class Player : MonoBehaviour
             
             //if (!isReloading)
             //{
-            if (isEquipped && !isCarryingObject && Input.GetKeyDown(control.reloadGun()))
+            if (isEquipped && !isCarryingObject && Input.GetKeyDown(ControlAssignment.reloadGun()))
             {
                 reloadGun();
             }
-            if (Input.GetKey(control.characterMoveBack()))
+            if (ControlAssignment.getMoveByWorldAxis())
+            {
+                if (Input.GetKey(ControlAssignment.characterMoveBack()))
+                {
+                    moveDirection += new Vector3(0, -1, 0);
+                }
+                if (Input.GetKey(ControlAssignment.characterMoveForward()))
+                {
+                    moveDirection += new Vector3(0, 1, 0);
+                }
+                if (Input.GetKey(ControlAssignment.characterMoveLeft()))
+                {
+                    moveDirection += new Vector3(-1, 0, 0);
+                }
+                if (Input.GetKey(ControlAssignment.characterMoveRight()))
+                {
+                    moveDirection += new Vector3(1, 0, 0);
+                }
+            }
+            else
+            {
+                if (Input.GetKey(ControlAssignment.characterMoveBack()))
+                {
+                    moveDirection = -transform.up;
+                }
+                if (Input.GetKey(ControlAssignment.characterMoveForward()))
+                {
+                    moveDirection = transform.up;
+                }
+                if (Input.GetKey(ControlAssignment.characterMoveLeft()))
+                {
+                    moveDirection = -transform.right;
+                }
+                if (Input.GetKey(ControlAssignment.characterMoveRight()))
+                {
+                    moveDirection = transform.right;
+                }
+            }
+
+            if (Input.GetKey(ControlAssignment.characterMoveBack()))
             {
                 // Calculate the backward direction based on the character's current forward vector
                 // Multiplying by -1 reverses the direction
-                if (Input.GetKey(control.characterDash()) && currentStamina > 0
+                if (Input.GetKey(ControlAssignment.characterDash()) && currentStamina > 0
                     && !isReloading && !firingPosition)
                 {
                     moveSpeed = maxRunSpeed;
@@ -219,18 +258,18 @@ public class Player : MonoBehaviour
                         anim.SetBool("Walking", true);
                     }
                 }
-                moveDirection = -transform.up;
+                //moveDirection = -transform.up;
                 
 
                 // Move the character in the backward direction
                 // Time.deltaTime ensures frame-rate independent movement
                 //transform.Translate(backwardDirection * moveSpeed * Time.deltaTime, Space.World);
             }
-            if (Input.GetKey(control.characterMoveForward()))
+            if (Input.GetKey(ControlAssignment.characterMoveForward()))
             {
                 // Calculate the backward direction based on the character's current forward vector
                 // Multiplying by -1 reverses the direction
-                if (Input.GetKey(control.characterDash()) && currentStamina > 0
+                if (Input.GetKey(ControlAssignment.characterDash()) && currentStamina > 0
                     && !isReloading && !firingPosition)
                 {
                     moveSpeed = maxRunSpeed;
@@ -249,18 +288,18 @@ public class Player : MonoBehaviour
                         anim.SetBool("Walking", true);
                     }
                 }
-                moveDirection = transform.up;
+                //moveDirection = transform.up;
                 
 
                 // Move the character in the backward direction
                 // Time.deltaTime ensures frame-rate independent movement
                 //transform.Translate(forwardDirection * moveSpeed * Time.deltaTime, Space.World);
             }
-            if (Input.GetKey(control.characterMoveLeft()))
+            if (Input.GetKey(ControlAssignment.characterMoveLeft()))
             {
                 // Calculate the backward direction based on the character's current forward vector
                 // Multiplying by -1 reverses the direction
-                if (Input.GetKey(control.characterDash()) && currentStamina > 0
+                if (Input.GetKey(ControlAssignment.characterDash()) && currentStamina > 0
                     && !isReloading && !firingPosition)
                 {
                     moveSpeed = maxRunSpeed;
@@ -279,18 +318,18 @@ public class Player : MonoBehaviour
                         anim.SetBool("Walking", true);
                     }
                 }
-                moveDirection = -transform.right;
+                //moveDirection = -transform.right;
                 
 
                 // Move the character in the backward direction
                 // Time.deltaTime ensures frame-rate independent movement
                 //transform.Translate(leftDirection * moveSpeed * Time.deltaTime, Space.World);
             }
-            if (Input.GetKey(control.characterMoveRight()))
+            if (Input.GetKey(ControlAssignment.characterMoveRight()))
             {
                 // Calculate the backward direction based on the character's current forward vector
                 // Multiplying by -1 reverses the direction
-                if (Input.GetKey(control.characterDash()) && currentStamina > 0
+                if (Input.GetKey(ControlAssignment.characterDash()) && currentStamina > 0
                     && !isReloading && !firingPosition)
                 {
                     moveSpeed = maxRunSpeed;
@@ -310,7 +349,7 @@ public class Player : MonoBehaviour
                     }
 
                 }
-                moveDirection = transform.right;
+                //moveDirection = transform.right;
                 
 
                 // Move the character in the backward direction
@@ -386,7 +425,7 @@ public class Player : MonoBehaviour
             //}
 
 
-            if (!Input.GetKey(control.characterDash()))
+            if (!Input.GetKey(ControlAssignment.characterDash()))
             {
                 recoverStamina();
 
@@ -830,7 +869,7 @@ public class Player : MonoBehaviour
     void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.collider.gameObject.tag == "Enemy"
-            && Input.GetKey(control.playerPush())
+            && Input.GetKey(ControlAssignment.playerPush())
             && Vector3.Dot(faceDirection, Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position)) > 0)
         {
             if (isEquipped)

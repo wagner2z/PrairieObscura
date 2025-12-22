@@ -7,7 +7,6 @@ using TMPro;
 
 public class Credits_Scene : MonoBehaviour
 {
-    ControlAssignment control = new ControlAssignment();
     public AudioSource music;
     public AudioSource sfx;
     float tempWait;
@@ -28,7 +27,7 @@ public class Credits_Scene : MonoBehaviour
     {
         if (!startUp)
         {
-            if (Input.GetKey(control.start()))
+            if (Input.GetKey(ControlAssignment.start()))
             {
                 sfx.Play();
                 startUp = true;

@@ -3,85 +3,97 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ControlAssignment
+public static class ControlAssignment
 {
-    public KeyCode characterMoveLeft()
+    static bool moveByWorldAxis = false;
+
+    public static KeyCode characterMoveLeft()
     {
         return KeyCode.A;
     }
 
-    public KeyCode characterMoveRight()
+    public static KeyCode characterMoveRight()
     {
         return KeyCode.D;
     }
 
-    public KeyCode characterMoveBack()
+    public static KeyCode characterMoveBack()
     {
         return KeyCode.S;
     }
 
-    public KeyCode characterMoveForward()
+    public static KeyCode characterMoveForward()
     {
         return KeyCode.W;
     }
 
-    public KeyCode characterDash()
+    public static KeyCode characterDash()
     {
         return KeyCode.LeftShift;
     }
 
-    public KeyCode playerPush()
+    public static KeyCode playerPush()
     {
         return KeyCode.Space;
     }
 
-    public KeyCode playerShoot()
+    public static KeyCode playerShoot()
     {
         return KeyCode.Mouse0;
     }
 
-    public KeyCode playerFirePosition()
+    public static KeyCode playerFirePosition()
     {
         return KeyCode.Mouse1;
     }
 
-    public KeyCode reloadGun()
+    public static KeyCode reloadGun()
     {
         return KeyCode.R;
     }
 
-    public KeyCode pickUpOrDrop()
+    public static KeyCode pickUpOrDrop()
     {
         return KeyCode.Mouse0;
     }
 
-    public KeyCode start()
+    public static KeyCode start()
     {
         return KeyCode.Return;
     }
 
-    public KeyCode exit()
+    public static KeyCode exit()
     {
         return KeyCode.Escape;
     }
 
-    public KeyCode switchOptionUp()
+    public static KeyCode switchOptionUp()
     {
         return KeyCode.W;
     }
 
-    public KeyCode switchOptionDown()
+    public static KeyCode switchOptionDown()
     {
         return KeyCode.S;
     }
 
-    public KeyCode switchOptionRight()
+    public static KeyCode switchOptionRight()
     {
         return KeyCode.D;
     }
 
-    public KeyCode switchOptionLeft()
+    public static KeyCode switchOptionLeft()
     {
         return KeyCode.A;
+    }
+
+    public static bool getMoveByWorldAxis()
+    {
+        return moveByWorldAxis;
+    }
+
+    public static void setMoveByWorldAxis(bool m)
+    {
+        moveByWorldAxis = m;
     }
 }

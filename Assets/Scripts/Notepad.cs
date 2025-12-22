@@ -7,7 +7,6 @@ using TMPro;
 public class Notepad : MonoBehaviour
 {
     public string noteText;
-    ControlAssignment control = new ControlAssignment();
     Player p;
     Color flashingColor;
     GameObject notepadUI;
@@ -42,7 +41,7 @@ public class Notepad : MonoBehaviour
             tempWaitTime -= Time.deltaTime;
         }
 
-        if (noteCollided && selectedNote && Input.GetKeyDown(control.pickUpOrDrop()) && !isNoteShowing && tempWaitTime <= 0f)
+        if (noteCollided && selectedNote && Input.GetKeyDown(ControlAssignment.pickUpOrDrop()) && !isNoteShowing && tempWaitTime <= 0f)
         {
             Debug.Log("Showing notepad");
             tempWaitTime = pickUpWaitTime;
@@ -52,7 +51,7 @@ public class Notepad : MonoBehaviour
             notepadUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = true;
 
         }
-        else if (noteCollided && selectedNote && Input.GetKeyDown(control.pickUpOrDrop()) && isNoteShowing && tempWaitTime <= 0f)
+        else if (noteCollided && selectedNote && Input.GetKeyDown(ControlAssignment.pickUpOrDrop()) && isNoteShowing && tempWaitTime <= 0f)
         {
             Debug.Log("Not showing notepad");
             tempWaitTime = pickUpWaitTime;

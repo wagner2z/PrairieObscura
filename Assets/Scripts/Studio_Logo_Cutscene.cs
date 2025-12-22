@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Studio_Logo_Cutscene : MonoBehaviour
 {
-    ControlAssignment control = new ControlAssignment();
+    GameObject options;
     RawImage darkScreen;
     bool titleFinished;
     public AudioSource music;
@@ -14,6 +15,8 @@ public class Studio_Logo_Cutscene : MonoBehaviour
     float tempWait;
     bool startUp;
     const float waitTime = 1f;
+    int optionPosition;
+    const int maxOptions = 3;
     //public AudioClip titleMusic;
     //public AudioClip startSound;
     // Start is called before the first frame update
@@ -21,9 +24,11 @@ public class Studio_Logo_Cutscene : MonoBehaviour
     {
         gameObject.GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
         darkScreen = GameObject.Find("Cut Scene").GetComponent<RawImage>();
+        options = GameObject.Find("TextOptions");
         darkScreen.enabled = true;
         titleFinished = false;
         startUp = false;
+        optionPosition = 0;
         //music.loop = true;
         //music.clip = titleMusic;
         //sfx.clip = startSound;
@@ -36,7 +41,34 @@ public class Studio_Logo_Cutscene : MonoBehaviour
     {
         if (titleFinished && !startUp)
         {
-            if (Input.GetKey(control.start()))
+            foreach(Transform t in options.transform)
+            {
+                t.GetComponent<TextMeshProUGUI>().color = Color.white;
+            }
+            options.transform.GetChild(optionPosition).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+            if (Input.GetKeyDown(ControlAssignment.switchOptionUp()))
+            {
+                if (optionPosition == 0)
+                {
+                    optionPosition = maxOptions - 1;
+                }
+                else
+                {
+                    optionPosition--;
+                }
+            }
+            if (Input.GetKeyDown(ControlAssignment.switchOptionDown()))
+            {
+                if (optionPosition == maxOptions - 1)
+                {
+                    optionPosition = 0;
+                }
+                else
+                {
+                    optionPosition++;
+                }
+            }
+            if (Input.GetKey(ControlAssignment.start()))
             {
                 sfx.Play();
                 startUp = true;
@@ -52,7 +84,18 @@ public class Studio_Logo_Cutscene : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene("ControlsScene");
+                if (optionPosition == 0)
+                {
+                    SceneManager.LoadScene("ControlsScene");
+                }
+                if(optionPosition == 1)
+                {
+                    SceneManager.LoadScene("SettingsScene");
+                }
+                if (optionPosition == 2)
+                {
+                    SceneManager.LoadScene("CreditsScene");
+                }
             }
         }
 

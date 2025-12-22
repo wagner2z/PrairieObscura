@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Gunshot_Effect : MonoBehaviour
 {
-    ControlAssignment control = new ControlAssignment();
     Light shot_light;
     ParticleSystem shot_flare;
     const float timeActive = 0.15f;

@@ -10,7 +10,6 @@ public class DeathHandler : MonoBehaviour
 {
     Player p;
     TextMeshProUGUI messageUI;
-    ControlAssignment control = new ControlAssignment();
     bool isAlreadyDead;
 
     // Start is called before the first frame update
@@ -33,7 +32,7 @@ public class DeathHandler : MonoBehaviour
             messageUI.color = Color.red;
             messageUI.enabled = true;
         }
-        if (isAlreadyDead && Input.GetKeyDown(control.start()))
+        if (isAlreadyDead && Input.GetKeyDown(ControlAssignment.start()))
         {
             isAlreadyDead = false;
             messageUI.enabled = false;

@@ -10,7 +10,6 @@ public class WinHandler : MonoBehaviour
 {
     CarFix c;
     TextMeshProUGUI messageUI;
-    ControlAssignment control = new ControlAssignment();
     bool hasAlreadyWon;
 
     // Start is called before the first frame update
@@ -32,7 +31,7 @@ public class WinHandler : MonoBehaviour
             messageUI.color = Color.white;
             messageUI.enabled = true;
         }
-        if (hasAlreadyWon && Input.GetKeyDown(control.start()))
+        if (hasAlreadyWon && Input.GetKeyDown(ControlAssignment.start()))
         {
             hasAlreadyWon = false;
             messageUI.enabled = false;

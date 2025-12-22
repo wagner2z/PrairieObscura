@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Controls_Scene : MonoBehaviour
 {
-    ControlAssignment control = new ControlAssignment();
     public AudioSource sfx;
     float tempWait;
     bool startUp;
@@ -24,7 +23,7 @@ public class Controls_Scene : MonoBehaviour
     {
         if (!startUp)
         {
-            if (Input.GetKey(control.start()))
+            if (Input.GetKey(ControlAssignment.start()))
             {
                 sfx.Play();
                 startUp = true;
