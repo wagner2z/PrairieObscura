@@ -34,6 +34,10 @@ public class PointCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        foreach (Transform d in transform)
+        {
+            d.gameObject.GetComponent<Image>().sprite = point0;
+        }
         pointString = points.ToString();
         switch (pointString.Length)
         {
@@ -124,7 +128,7 @@ public class PointCounter : MonoBehaviour
         }
         else
         {
-            points = points - p;
+            points -= p;
         }
        
     }
