@@ -63,6 +63,16 @@ public static class ControlAssignment
         return KeyCode.Return;
     }
 
+    public static KeyCode select1()
+    {
+        return KeyCode.Return;
+    }
+
+    public static KeyCode select2()
+    {
+        return KeyCode.Mouse0;
+    }
+
     public static KeyCode exit()
     {
         return KeyCode.Escape;

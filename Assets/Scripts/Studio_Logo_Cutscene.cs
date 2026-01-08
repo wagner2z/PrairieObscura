@@ -8,6 +8,7 @@ using TMPro;
 public class Studio_Logo_Cutscene : MonoBehaviour
 {
     GameObject options;
+    RawImage logo;
     RawImage darkScreen;
     bool titleFinished;
     public AudioSource music;
@@ -22,7 +23,8 @@ public class Studio_Logo_Cutscene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
+        logo = GameObject.Find("Studio Logo").GetComponent<RawImage>();
+        logo.color = new Color(1f, 1f, 1f, 0f);
         darkScreen = GameObject.Find("Cut Scene").GetComponent<RawImage>();
         options = GameObject.Find("TextOptions");
         darkScreen.enabled = true;
@@ -41,7 +43,8 @@ public class Studio_Logo_Cutscene : MonoBehaviour
     {
         if (titleFinished && !startUp)
         {
-            foreach(Transform t in options.transform)
+            //Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            foreach (Transform t in options.transform)
             {
                 t.GetComponent<TextMeshProUGUI>().color = Color.white;
             }
@@ -68,7 +71,8 @@ public class Studio_Logo_Cutscene : MonoBehaviour
                     optionPosition++;
                 }
             }
-            if (Input.GetKey(ControlAssignment.start()))
+            
+            if (Input.GetKey(ControlAssignment.select1()) || Input.GetKey(ControlAssignment.select2()))
             {
                 sfx.Play();
                 startUp = true;
@@ -119,7 +123,7 @@ public class Studio_Logo_Cutscene : MonoBehaviour
         for (float i = 0f; i <= 1f;)
         {
             i = i + 0.1f;
-            gameObject.GetComponent<RawImage>().color = new Color(1f, 1f, 1f, i);
+            logo.color = new Color(1f, 1f, 1f, i);
             yield return new WaitForSeconds(0.1f);
         }
 
@@ -127,7 +131,7 @@ public class Studio_Logo_Cutscene : MonoBehaviour
         for (float i = 1f; i > 0;)
         {
             i = i - 0.1f;
-            gameObject.GetComponent<RawImage>().color = new Color(1f, 1f, 1f, i);
+            logo.color = new Color(1f, 1f, 1f, i);
             yield return new WaitForSeconds(0.1f);
         }
         for (float i = 1f; i > 0;)
@@ -140,5 +144,37 @@ public class Studio_Logo_Cutscene : MonoBehaviour
         yield return null;
     }
 
+    public void setOption(int o)
+    {
+        if (titleFinished && !startUp)
+        {
+            optionPosition = o;
+        }
+    }
+
+    /*public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Detected object hovered over");
+        if (titleFinished && !startUp)
+        {
+            if(eventData.selectedObject == options.transform.GetChild(0).gameObject)
+            {
+                optionPosition = 0;
+            }
+            else if (eventData.selectedObject == options.transform.GetChild(1).gameObject)
+            {
+                optionPosition = 1;
+            }
+            else if (eventData.selectedObject == options.transform.GetChild(2).gameObject)
+            {
+                optionPosition = 2;
+            }
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        
+    }*/
 }
 
