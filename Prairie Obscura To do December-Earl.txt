@@ -1,16 +1,12 @@
 Prairie Obscura To do December-Early January
 
-1. Add Directional Controls
 
-2. Enemy Spawning
 
-3. Player not being center (0.48, 0.33)
 
-4. Sensitivity slider (Mouse)
+
+
 
 5. Aesthetic updates
-
-6. Populating map
 
 7. Use what is finished
 
@@ -18,6 +14,6 @@ Prairie Obscura To do December-Early January
 
 9. Further sound design
 
-10. Look into Milanote
+
 
 11. Look Into Multiplayer implementation
