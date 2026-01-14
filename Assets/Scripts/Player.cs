@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     int currentWeaponPos;
     bool isEquipped;
     const int maxWeaponPos = 2;
+    const int maxGunUpgrade = 3;
     public Sprite idleSprite;
     public Sprite shootSprite;
     const float maxWalkSpeed = 5f;
@@ -789,6 +790,47 @@ public class Player : MonoBehaviour
         }
 
         return unlockedGuns;
+    }
+
+    public List<GunTypes> getNewLockedGuns()
+    {
+        List<GunTypes> lockedGuns = new List<GunTypes>();
+        //int temp = 0;
+        for (int i = 0; i < maxWeaponPos + 1; i++)
+        {
+            if (!availableGuns[i].getGunAvailable() && availableGuns[i].getGunUpgrade() == 1)
+            {
+                lockedGuns.Add(availableGuns[i]);
+                //temp++;
+            }
+        }
+
+        return lockedGuns;
+    }
+
+    public List<GunTypes> getUpgradeLockedGuns()
+    {
+        List<GunTypes> lockedGuns = new List<GunTypes>();
+        //int temp = 0;
+        for (int i = 0; i < maxWeaponPos + 1; i++)
+        {
+            if (availableGuns[i].getGunAvailable() && availableGuns[i].getGunUpgrade() < maxGunUpgrade)
+            {
+                int gunUpgradeLevel = availableGuns[i].getGunUpgrade() + 1;
+                string gunName = availableGuns[i].getGunName();
+                for (int j = 0; j < maxWeaponPos + 1; j++)
+                {
+                    if (!availableGuns[j].getGunAvailable() && availableGuns[j].getGunName() == gunName && availableGuns[j].getGunUpgrade() == gunUpgradeLevel)
+                    {
+                        lockedGuns.Add(availableGuns[j]);
+                        break;
+                    }
+                }
+                //temp++;
+            }
+        }
+
+        return lockedGuns;
     }
 
     public void setCarryableObject()

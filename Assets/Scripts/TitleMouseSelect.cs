@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class OptionMouseSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TitleMouseSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public int option;
     Studio_Logo_Cutscene title;

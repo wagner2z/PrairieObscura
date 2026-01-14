@@ -21,6 +21,7 @@ public class MapSetup : MonoBehaviour
     int waveCount;
     int waveStartCountdown = 35;
     bool settingUp;
+    bool inBetweenRounds;
     TextMeshProUGUI waveMsg;
 
     // Start is called before the first frame update
@@ -45,6 +46,7 @@ public class MapSetup : MonoBehaviour
         enemyTotal = 0;
         enemyCount = -1;
         settingUp = false;
+        inBetweenRounds = false;
         placeEnemies(enemies);
     }
 
@@ -93,6 +95,7 @@ public class MapSetup : MonoBehaviour
     public IEnumerator roundSetUp()
     {
         waveMsg.text = "Wave Complete!";
+        inBetweenRounds = true;
         yield return new WaitForSeconds(2f);
         waveCount++;
         enemies = w.getEnemyWaveList(waveCount);
@@ -106,6 +109,7 @@ public class MapSetup : MonoBehaviour
         waveMsg.text = "";
         placeEnemies(enemies);
         settingUp = false;
+        inBetweenRounds = false;
         yield return null;
     }
 
@@ -122,6 +126,11 @@ public class MapSetup : MonoBehaviour
     public int getCurrentEnemies()
     {
         return enemyCount;
+    }
+
+    public bool isInBetweenRounds()
+    {
+        return inBetweenRounds;
     }
 
     public void removeEnemy()
