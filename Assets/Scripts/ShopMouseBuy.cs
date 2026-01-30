@@ -2,22 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using TMPro;
 
-public class ShopMouseOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ShopMouseBuy : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public int option;
-    GameObject shopItemUI;
     bool hoverOver;
+    bool purchaseError;
     Shop shop;
     MapSetup setup;
     // Start is called before the first frame update
     void Start()
     {
+        purchaseError = false;
         hoverOver = false;
         shop = GameObject.Find("Shop").GetComponent<Shop>();
-        shopItemUI = GameObject.Find("ShopItemSprite");
         setup = GameObject.Find("SceneHandler").GetComponent<MapSetup>();
     }
 
@@ -28,33 +26,26 @@ public class ShopMouseOption : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
         if (shop.itemsSelected())
         {
-            if(shop.getItem(option) != null)
+            int option = shop.getOption();
+            if(option != -1)
             {
-                //Debug.Log("Item name for option " + option + " is " + shop.getItem(option).getItemName());
-                transform.gameObject.GetComponent<TextMeshProUGUI>().text = shop.getItem(option).getItemName();
-
+                transform.gameObject.GetComponent<TextMeshProUGUI>().text = "Buy (" + shop.getItem(option).getPointCost() + ")";
             }
-            
             else
             {
                 transform.gameObject.GetComponent<TextMeshProUGUI>().text = "";
             }
-        }
-        }
-        if (Input.GetKeyDown(ControlAssignment.select2()) && hoverOver && shop.getItem(option) != null)
-        {
-            shop.setOption(option);
-        }
 
-        if (shop.getOption() == option)
-        {
-            transform.gameObject.GetComponent<TextMeshProUGUI>().color = Color.yellow;
-            shopItemUI.GetComponent<Image>().enabled = true;
-            shopItemUI.GetComponent<Image>().sprite = shop.getItem(option).getItemSprite();
+            if (Input.GetKeyDown(ControlAssignment.select2()) && hoverOver && shop.getItem(option) != null)
+            {
+                purchaseError = !shop.buyItem(option);
+                Debug.Log("Attempt to buy item");
+            }
+            if(hoverOver && purchaseError)
+            {
+                transform.gameObject.GetComponent<TextMeshProUGUI>().color = Color.red;
+            }
         }
-        else
-        {
-            transform.gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
         }
     }
 
@@ -71,5 +62,7 @@ public class ShopMouseOption : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerExit(PointerEventData eventData)
     {
         hoverOver = false;
+        transform.gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
+        purchaseError = false;
     }
 }

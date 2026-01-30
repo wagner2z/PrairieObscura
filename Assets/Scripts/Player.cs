@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     GameObject carryable;
     int currentWeaponPos;
     bool isEquipped;
-    const int maxWeaponPos = 2;
+    const int maxWeaponPos = 3;
     const int maxGunUpgrade = 3;
     public Sprite idleSprite;
     public Sprite shootSprite;
@@ -93,9 +93,10 @@ public class Player : MonoBehaviour
         carryable.GetComponent<Renderer>().enabled = false;
         //Transform uiParent = canvas.Find("SelectedGun").transform;
         availableGuns = new GunTypes[maxWeaponPos + 1];
-        availableGuns[0] = new GunTypes("revolver", 1, 5, 6, 0, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
-        availableGuns[1] = new GunTypes("bolt rifle", 1, 8, 3, 1, 1, 2f, 2, true, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
-        availableGuns[2] = new GunTypes("double barrel shotgun", 1, 12, 2, 2, 1, 0.82f, 3, true, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
+        availableGuns[0] = new GunTypes("Revolver", 1, 5, 6, 0, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
+        availableGuns[1] = new GunTypes("Bolt Rifle", 1, 8, 3, 1, 1, 2f, 2, false, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
+        availableGuns[2] = new GunTypes("Double Barrel Shotgun", 1, 12, 2, 2, 1, 0.82f, 3, false, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
+        availableGuns[3] = new GunTypes("Revolver", 2, 7, 6, 0, 1, 3f, 1, false, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
 
         currentStamina = maxStamina;
         isHitTime = 0f;
@@ -833,11 +834,37 @@ public class Player : MonoBehaviour
         return lockedGuns;
     }
 
+    public void unlockGun(string gunName)
+    {
+        for (int i = 0; i < maxWeaponPos + 1; i++)
+        {
+            if (availableGuns[i].getGunName() == gunName && availableGuns[i].getGunUpgrade() == 1)
+            {
+                availableGuns[i].setGunAvailable(true);
+                break;
+            }
+        }
+    }
+
+    public void upgradeGun(string gunName, int gunUpgrade)
+    {
+        for (int i = 0; i < maxWeaponPos + 1; i++)
+        {
+            if (availableGuns[i].getGunName() == gunName && availableGuns[i].getGunUpgrade() == gunUpgrade)
+            {
+                availableGuns[i].setGunAvailable(true);
+            }
+            else if (availableGuns[i].getGunName() == gunName && availableGuns[i].getGunUpgrade() == gunUpgrade - 1)
+            {
+                availableGuns[i].setGunAvailable(false);
+            }
+        }
+    }
+
     public void setCarryableObject()
     {
         carryable.GetComponent<Renderer>().enabled = true;
-        currentWeaponPos = -1;
-        isEquipped = false;
+        unequipWeapon();
         carryable.GetComponent<SpriteRenderer>().sprite = foundObject.GetComponent<SpriteRenderer>().sprite;
         isCarryingObject = true;
         tempWaitTime = pickUpWaitTime;
@@ -856,6 +883,11 @@ public class Player : MonoBehaviour
         carryable.GetComponent<Renderer>().enabled = false;
         isCarryingObject = false;
         tempWaitTime = pickUpWaitTime;
+    }
+    public void unequipWeapon()
+    {
+        currentWeaponPos = -1;
+        isEquipped = false;
     }
 
 

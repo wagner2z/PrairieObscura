@@ -35,8 +35,8 @@ public class MapSetup : MonoBehaviour
         //enemies = GameObject.Find("Horde1");
         xBoundLeft = -35f;
         xBoundRight = 35f;
-        yBoundDown = 30f;
-        yBoundUp = 15f;
+        yBoundDown = -35f;
+        yBoundUp = 30f;
         xPosition = 0;
         yPosition = 0;
         /*xBoundLeft = -45.5f;
@@ -68,20 +68,48 @@ public class MapSetup : MonoBehaviour
             int tempR = Random.Range(0, 2);
             if(tempR == 0)
             {
-                xPosition = Random.Range(xBoundLeft, p.transform.position.x - 1f);
+                if (p.transform.position.x - 1f < xBoundLeft)
+                {
+                    xPosition = xBoundLeft;
+                }
+                else
+                {
+                    xPosition = Random.Range(xBoundLeft, p.transform.position.x - 1f);
+                }
             }
             else
             {
-                xPosition = Random.Range(p.transform.position.x + 1f, xBoundRight);
+                if (p.transform.position.x + 1 > xBoundRight)
+                {
+                    xPosition = xBoundRight;
+                }
+                else
+                {
+                    xPosition = Random.Range(p.transform.position.x + 1f, xBoundRight);
+                }
             }
             tempR = Random.Range(0, 2);
             if (tempR == 0)
             {
-                yPosition = Random.Range(yBoundDown, p.transform.position.y - 1f);
+                if (p.transform.position.y - 1f < yBoundDown)
+                {
+                    yPosition = yBoundDown;
+                }
+                else
+                {
+                    yPosition = Random.Range(yBoundDown, p.transform.position.y - 1f);
+                }
             }
             else
             {
-                yPosition = Random.Range(p.transform.position.y + 1f, yBoundUp);
+                if (p.transform.position.x + 1 > yBoundUp)
+                {
+                    yPosition = yBoundUp;
+                }
+                else
+                {
+                    yPosition = Random.Range(p.transform.position.y + 1f, yBoundUp);
+                }
             }
             e.transform.position = new Vector3(xPosition, yPosition, 0);
             e.GetComponent<Enemy>().rigidBody.constraints = RigidbodyConstraints2D.None;

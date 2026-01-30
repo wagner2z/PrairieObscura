@@ -315,8 +315,11 @@ public class Enemy : MonoBehaviour
         if (collision.collider.gameObject.tag == "Door")
         {
             Door d = collision.collider.gameObject.GetComponent<Door>();
-            gameObject.transform.position = new Vector3(d.xPlacement, d.yPlacement, 0);
-            isInside = d.indoors;
+            if (d.isDoorUnlocked())
+            {
+                gameObject.transform.position = new Vector3(d.xPlacement, d.yPlacement, 0);
+                isInside = d.indoors;
+            }
         }
 
     }
