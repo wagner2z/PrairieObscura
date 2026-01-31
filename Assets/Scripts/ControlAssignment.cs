@@ -7,6 +7,7 @@ public static class ControlAssignment
 {
     static bool moveByWorldAxis = false;
     static int mouseSensitivity = 100;
+    static float volumeLevel = 1f;
 
     public static KeyCode characterMoveLeft()
     {
@@ -116,5 +117,16 @@ public static class ControlAssignment
     public static void setMouseSensitivity(int i)
     {
         mouseSensitivity = i;
+    }
+
+    public static float getVolumeLevel()
+    {
+        return volumeLevel;
+    }
+
+    public static void setVolumeLevel (float v)
+    {
+        volumeLevel = v;
+        AudioListener.volume = volumeLevel;
     }
 }

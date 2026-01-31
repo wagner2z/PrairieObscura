@@ -8,17 +8,22 @@ using TMPro;
 public class Settings_Scene : MonoBehaviour
 {
     GameObject options;
+    GameObject[] sliders;
+    float volumeLevel;
     public AudioSource sfx;
     float tempWait;
     bool startUp;
     const float waitTime = 1f;
     int optionPosition;
     const int maxOptions = 2;
+
     // Start is called before the first frame update
     void Start()
     {
         startUp = false;
+        volumeLevel = ControlAssignment.getVolumeLevel();
         options = GameObject.Find("SettingOptions");
+        sliders = GameObject.FindGameObjectsWithTag("Slider");
         tempWait = 0f;
 
     }
@@ -30,6 +35,8 @@ public class Settings_Scene : MonoBehaviour
         {
             t.GetComponent<TextMeshProUGUI>().color = Color.white;
         }
+        sliders[0].transform.position = setSliderPosition(volumeLevel, GameObject.Find("VolumeBar"));
+
         options.transform.GetChild(optionPosition).GetComponent<TextMeshProUGUI>().color = Color.yellow;
         if (!ControlAssignment.getMoveByWorldAxis())
         {
@@ -72,7 +79,11 @@ public class Settings_Scene : MonoBehaviour
 
             if(optionPosition == 1)
             {
-                //setSliderPosition();
+                if (volumeLevel > 0)
+                {
+                    volumeLevel -= 0.1f;
+                    ControlAssignment.setVolumeLevel(volumeLevel);
+                }
             }
         }
         if (Input.GetKeyDown(ControlAssignment.switchOptionRight()))
@@ -83,7 +94,11 @@ public class Settings_Scene : MonoBehaviour
             }
             if (optionPosition == 1)
             {
-                //setSliderPosition();
+                if (volumeLevel < 1.0f)
+                {
+                    volumeLevel += 0.1f;
+                    ControlAssignment.setVolumeLevel(volumeLevel);
+                }
             }
         }
         if (!startUp)

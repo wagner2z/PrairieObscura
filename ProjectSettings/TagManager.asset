@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Door
   - CarryObject
+  - Slider
   layers:
   - Default
   - TransparentFX
