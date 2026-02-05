@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     GameObject carryable;
     int currentWeaponPos;
     bool isEquipped;
-    const int maxWeaponPos = 3;
+    const int maxWeaponPos = 8;
     const int maxGunUpgrade = 3;
     public Sprite idleSprite;
     public Sprite shootSprite;
@@ -58,6 +58,12 @@ public class Player : MonoBehaviour
     public RuntimeAnimatorController handgun1;
     public RuntimeAnimatorController rifle1;
     public RuntimeAnimatorController shotgun1;
+    public RuntimeAnimatorController handgun2;
+    public RuntimeAnimatorController rifle2;
+    public RuntimeAnimatorController shotgun2;
+    public RuntimeAnimatorController handgun3;
+    public RuntimeAnimatorController rifle3;
+    public RuntimeAnimatorController shotgun3;
     GameObject foundObject;
 
     public AudioSource playerMoveSounds;
@@ -94,9 +100,15 @@ public class Player : MonoBehaviour
         //Transform uiParent = canvas.Find("SelectedGun").transform;
         availableGuns = new GunTypes[maxWeaponPos + 1];
         availableGuns[0] = new GunTypes("Revolver", 1, 5, 6, 0, 1, 3f, 1, true, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
-        availableGuns[1] = new GunTypes("Bolt Rifle", 1, 8, 3, 1, 1, 2f, 2, false, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
-        availableGuns[2] = new GunTypes("Double Barrel Shotgun", 1, 12, 2, 2, 1, 0.82f, 3, false, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
-        availableGuns[3] = new GunTypes("Revolver", 2, 7, 6, 0, 1, 3f, 1, false, canvas.transform.Find("SelectedGun/RevolverUI (1)"), handgun1, true);
+        availableGuns[1] = new GunTypes("Revolver", 2, 7, 6, 0, 1, 2.5f, 1, false, canvas.transform.Find("SelectedGun/RevolverUI (2)"), handgun2, true);
+        availableGuns[2] = new GunTypes("Revolver", 3, 9, 10, 0, 1, 4f, 1, false, canvas.transform.Find("SelectedGun/RevolverUI (3)"), handgun3, true);
+        availableGuns[3] = new GunTypes("Bolt Rifle", 1, 8, 3, 0, 1, 2f, 1, false, canvas.transform.Find("SelectedGun/BoltRifleUI (1)"), rifle1, false);
+        availableGuns[4] = new GunTypes("Bolt Rifle", 2, 8, 3, 0, 1, 2f, 3, false, canvas.transform.Find("SelectedGun/BoltRifleUI (2)"), rifle2, false);
+        availableGuns[5] = new GunTypes("Bolt Rifle", 3, 12, 3, 0, 1, 2f, 3, false, canvas.transform.Find("SelectedGun/BoltRifleUI (3)"), rifle3, false);
+        availableGuns[6] = new GunTypes("Double Barrel Shotgun", 1, 12, 2, 0, 1, 0.82f, 1, false, canvas.transform.Find("SelectedGun/DoubleBarrelUI (1)"), shotgun1, false);
+        availableGuns[7] = new GunTypes("Double Barrel Shotgun", 2, 15, 2, 0, 1, 0.82f, 1, false, canvas.transform.Find("SelectedGun/DoubleBarrelUI (2)"), shotgun2, false);
+        availableGuns[8] = new GunTypes("Double Barrel Shotgun", 3, 15, 4, 0, 1, 1.32f, 1, false, canvas.transform.Find("SelectedGun/DoubleBarrelUI (3)"), shotgun3, false);
+
 
         currentStamina = maxStamina;
         isHitTime = 0f;
