@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class ShootCursor : MonoBehaviour
     public Animator anim;
     AnimatorStateInfo stateInfo;
     float lockOnTime;
+    const float totalLockOnTime = 0.94f;
+    const float totalLockOffTime = 0.67f;
     Player p;
     GameObject enemySelected;
 
@@ -40,12 +43,13 @@ public class ShootCursor : MonoBehaviour
 
     public float getLockOnTime()
     {
-        return lockOnTime;
+        return lockOnTime - math.trunc(lockOnTime);
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "Enemy" && GetComponent<Renderer>().enabled)
+        if (collider.gameObject.tag == "Enemy" && GetComponent<Renderer>().enabled
+            && enemySelected == null)
         {
             anim.Play("active_cursor", 0, 0);
             enemySelected = collider.gameObject;
@@ -60,16 +64,17 @@ public class ShootCursor : MonoBehaviour
             if(stateInfo.IsName("default"))
             {
                 anim.Play("active_cursor", 0, 0);
+                enemySelected = collider.gameObject;
             }
-            enemySelected = collider.gameObject;
+            
         }
     }
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "Enemy")
+        if (collider.gameObject.tag == "Enemy" && enemySelected == collider.gameObject)
         {
-            anim.Play("remove_cursor", 0, lockOnTime);
+            anim.Play("remove_cursor", 0, getLockOnTime());
             enemySelected = null;
         }
 
