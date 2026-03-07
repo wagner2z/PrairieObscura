@@ -813,8 +813,16 @@ public class Player : MonoBehaviour
         {
             if (!availableGuns[i].getGunAvailable() && availableGuns[i].getGunUpgrade() == 1)
             {
-                lockedGuns.Add(availableGuns[i]);
-                //temp++;
+                for (int j = 0; j < maxWeaponPos + 1; j++)
+                {
+                    if (!(availableGuns[j].getGunAvailable() &&
+                        availableGuns[j].getGunName() == availableGuns[i].getGunName() &&
+                        availableGuns[j].getGunUpgrade() > availableGuns[i].getGunUpgrade()))
+                    {
+                        lockedGuns.Add(availableGuns[i]);
+                    }
+                   
+                }
             }
         }
 

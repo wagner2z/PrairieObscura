@@ -59,7 +59,8 @@ public class ShootCursor : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collider)
     {
-        if(collider.gameObject.tag == "Enemy" && GetComponent<Renderer>().enabled)
+        if(collider.gameObject.tag == "Enemy" && GetComponent<Renderer>().enabled
+            && enemySelected == null)
         {
             if(stateInfo.IsName("default"))
             {
