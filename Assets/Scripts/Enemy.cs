@@ -41,6 +41,9 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         transform.position = new Vector3(offScreenX, offScreenY, 0);
+        rigidBody = GetComponent<Rigidbody2D>();
+        rigidBody.velocity = new Vector3(0, 0, 0);
+        rigidBody.constraints = RigidbodyConstraints2D.FreezePosition;
         markedDead = true;
     }
 
@@ -59,8 +62,6 @@ public class Enemy : MonoBehaviour
         playerWorldPos.z = 0;
         direction = playerWorldPos - transform.position;
         moveSpeed = maxMoveSpeed;
-        rigidBody = GetComponent<Rigidbody2D>();
-        rigidBody.velocity = new Vector3(0, 0, 0);
         pushed = false;
         isInside = false;
 
